@@ -93,7 +93,6 @@ public class LevelUpControllerTest<LevelUpRepo> {
     public void shouldCreateUpdateAndDeleteLevelUp() throws Exception {
         LevelUp levelUpAdded = levelUp;
         levelUpAdded.setLevelUpId(1);
-
         given(levelUpRepo.save(levelUp)).willReturn(levelUpAdded);
         Optional<LevelUp> optionalLevelUpAdded = Optional.of(levelUp);
         given(levelUpRepo.findById(1)).willReturn(optionalLevelUpAdded);
