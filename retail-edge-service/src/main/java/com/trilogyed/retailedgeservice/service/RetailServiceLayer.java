@@ -1,9 +1,13 @@
 package com.trilogyed.retailedgeservice.service;
 
 import com.netflix.discovery.converters.Auto;
+import com.trilogyed.retailedgeservice.dto.Invoice;
+import com.trilogyed.retailedgeservice.dto.Product;
 import com.trilogyed.retailedgeservice.feign.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RetailServiceLayer {
@@ -20,5 +24,37 @@ public class RetailServiceLayer {
         this.invoiceItemClient = invoiceItemClient;
         this.levelUpClient = levelUpClient;
         this.productClient = productClient;
+    }
+
+    public Invoice submitInvoice(Invoice invoice) {
+        return invoiceClient.createInvoice(invoice);
+    }
+
+    public Invoice getInvoiceById(int id) {
+        return null;
+    }
+
+    public List<Invoice> getAllInvoices() {
+        return null;
+    }
+
+    public List<Invoice> getInvoicesByCustomerId() {
+        return null;
+    }
+
+    public List<Product> getProductsInInventory() {
+        return null;
+    }
+
+    public Product getProductById(int id) {
+        return null;
+    }
+
+    public List<Product> getProductByInvoiceId(int id) {
+        return null;
+    }
+
+    public int getLevelUpPointsByCustomerId(int id) {
+        return 0;
     }
 }

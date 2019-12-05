@@ -107,7 +107,6 @@ public class RetailServiceLayerTest {
         customerClient = mock(CustomerClient.class);
         final Customer customer = new Customer("Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
         final Customer customerWithId = new Customer(1,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
-
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customerWithId);
         doReturn(customerWithId).when(customerClient).getCustomerById(1);
