@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface InvoiceDao extends JpaRepository<Invoice, Integer> {
-    //Optional<Invoice> findInvoiceByRoomType(String roomType);
+public interface InvoiceRepo extends JpaRepository<Invoice, Integer> {
 }
