@@ -41,7 +41,6 @@ public class InvoiceControllerTest {
     public void setUp() throws Exception {
         JacksonTester.initFields(this, new ObjectMapper());
         invoice = new Invoice();
-        invoice.setInvoiceId(1);
         invoice.setCustomerId(1);
         invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
 
