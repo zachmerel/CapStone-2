@@ -31,20 +31,22 @@ public class RetailServiceLayerTest {
     }
 
     private void setUpProductClientMock() {
-        productClient = mock(ProductClient.class);
-        Product product = new Product();
-        //        product.setCustomerId(1);
-        //        product.setPoints(1);
-        //        product.setMemberDate(LocalDate.parse("2019-12-05"));
-        Product productWithId = new Product();
-        //        productWithId.setCustomerId(1);
-        //        productWithId.setPoints(1);
-        //        productWithId.setMemberDate(LocalDate.parse("2019-12-05"));
-        //        productWithId.setProductId(1);
-        List<Product> productList = new ArrayList<>();
-        productList.add(productWithId);
-        doReturn(productWithId).when(productClient).getProductById(1);
-        doReturn(productList).when(productClient).getAllProducts();
+    productClient = mock(ProductClient.class);
+    Product product = new Product();
+    //        product.setCustomerId(1);
+    //        product.setPoints(1);
+    //        product.setMemberDate(LocalDate.parse("2019-12-05"));
+    Product productWithId = new Product();
+    //        productWithId.setCustomerId(1);
+    //        productWithId.setPoints(1);
+    //        productWithId.setMemberDate(LocalDate.parse("2019-12-05"));
+    //        productWithId.setProductId(1);
+    List<Product> productList = new ArrayList<>();
+    productList.add(productWithId);
+    doReturn(productWithId).when(productClient).getProductById(1);
+    doReturn(productList).when(productClient).getAllProducts();
+    doReturn(productWithId).when(productClient).createProduct(product);
+
     }
 
     private void setUpLevelUpClientMock() {
@@ -62,23 +64,27 @@ public class RetailServiceLayerTest {
         levelUpList.add(levelUpWithId);
         doReturn(levelUpWithId).when(levelUpClient).getLevelUpById(1);
         doReturn(levelUpList).when(levelUpClient).getAllLevelUps();
+        doReturn(levelUpWithId).when(levelUpClient).createLevelUp(levelUp);
     }
 
     private void setUpInvoiceItemClientMock() {
         invoiceItemClient = mock(InvoiceItemClient.class);
         InvoiceItem invoiceItem = new InvoiceItem();
-        //        invoiceItem.setCustomerId(1);
-        //        invoiceItem.setPoints(1);
-        //        invoiceItem.setMemberDate(LocalDate.parse("2019-12-05"));
+        invoiceItem.setInvoiceId(1);
+        invoiceItem.setProductId(1);
+        invoiceItem.setQuantity(1);
+        invoiceItem.setUnitPrice(1);
         InvoiceItem invoiceItemWithId = new InvoiceItem();
-        //        invoiceItemWithId.setCustomerId(1);
-        //        invoiceItemWithId.setPoints(1);
-        //        invoiceItemWithId.setMemberDate(LocalDate.parse("2019-12-05"));
-        //        invoiceItemWithId.setInvoiceItemId(1);
+        invoiceItem.setInvoiceId(1);
+        invoiceItem.setProductId(1);
+        invoiceItem.setQuantity(1);
+        invoiceItem.setUnitPrice(1);
+        invoiceItem.setInvoiceItemId(1);
         List<InvoiceItem> invoiceItemList = new ArrayList<>();
         invoiceItemList.add(invoiceItemWithId);
         doReturn(invoiceItemWithId).when(invoiceItemClient).getInvoiceItemById(1);
         doReturn(invoiceItemList).when(invoiceItemClient).getAllInvoiceItems();
+        doReturn(invoiceItemWithId).when(invoiceItemClient).createInvoiceItem(invoiceItem);
     }
 
     private void setUpInvoiceClientMock() {
@@ -94,22 +100,18 @@ public class RetailServiceLayerTest {
         invoiceList.add(invoiceWithId);
         doReturn(invoiceWithId).when(invoiceClient).getInvoiceById(1);
         doReturn(invoiceList).when(invoiceClient).getAllInvoices();
+        doReturn(invoiceWithId).when(invoiceClient).createInvoice(invoice);
     }
 
     private void setUpCustomerClientMock() {
         customerClient = mock(CustomerClient.class);
-        Customer customer = new Customer();
-        //        customer.setCustomerId(1);
-        //        customer.setPoints(1);
-        //        customer.setMemberDate(LocalDate.parse("2019-12-05"));
-        Customer customerWithId = new Customer();
-        //        customerWithId.setCustomerId(1);
-        //        customerWithId.setPoints(1);
-        //        customerWithId.setMemberDate(LocalDate.parse("2019-12-05"));
-        //        customerWithId.setCustomerId(1);
+        final Customer customer = new Customer("Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
+        final Customer customerWithId = new Customer(1,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
+
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customerWithId);
         doReturn(customerWithId).when(customerClient).getCustomerById(1);
         doReturn(customerList).when(customerClient).getAllCustomers();
+        doReturn(customerWithId).when(customerClient).createCustomer(customer);
     }
 }
