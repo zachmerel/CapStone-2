@@ -2,6 +2,7 @@ package com.trilogyed.customerservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trilogyed.customerservice.dao.CustomerDao;
+import com.trilogyed.customerservice.exception.NotFoundException;
 import com.trilogyed.customerservice.model.Customer;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +20,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -35,24 +37,25 @@ public class CustomerControllerTest {
     private static final Customer Customer_ID = new Customer(1,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
     private static final List<Customer> Customer_LIST = new ArrayList<>(Arrays.asList(Customer_ID));
     private static final Customer Customer_UPDATED = new Customer(1,"Dan", "Mueller", "Updated Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
-    private static final Customer Customer_BAD_UPDATE = new Customer(7, //fill me in boi);
+    private static final Customer Customer_BAD_UPDATE = new Customer(7,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
     private static final String SUCCESS = "Success";
     private static final String FAIL = "Fail";
     private ObjectMapper mapper = new ObjectMapper();
 
     @Before
     public void setUpMock() {
-        when(customerDao.saveCustomer(Customer_NO_ID)).thenReturn(Customer_ID);
-        when(customerDao.getCustomer(1)).thenReturn(Customer_ID);
-        when(customerDao.getAllCustomers()).thenReturn(Customer_LIST);
+        when(customerDao.save(Customer_NO_ID)).thenReturn(Customer_ID);
+        when(customerDao.getOne(1)).thenReturn(Customer_ID);
+        when(customerDao.findAll()).thenReturn(Customer_LIST);
         //success and failure messages sent from service layer if applicable
-        //when(customerDao.updateCustomer(Customer_UPDATED)).thenReturn("Update: "+ SUCCESS);
-        //when(customerDao.deleteCustomer(1)).thenReturn("Delete: " + SUCCESS);
-        //when(customerDao.updateCustomer(Customer_BAD_UPDATE)).thenReturn("Update: "+ FAIL);
-        //when(customerDao.deleteCustomer(1)).thenReturn("Delete: " + FAIL);
-        //exceptions
-        //when(customerDao.updateCustomer(Customer_BAD_UPDATE)).thenThrow(new NotFoundException("bad thing"));
-        //when(customerDao.deleteCustomer(7)).thenThrow(new NotFoundException("bad thing"));        
+//        when(customerDao.save(Customer_UPDATED)).thenReturn("Update: "+ SUCCESS);
+//        when(customerDao.deleteById(1)).thenReturn("Delete: " + SUCCESS);
+//        when(customerDao.save(Customer_BAD_UPDATE)).thenReturn("Update: "+ FAIL);
+//        when(customerDao.deleteById(1)).thenReturn("Delete: " + FAIL);
+//        exceptions
+        when(customerDao.save(Customer_BAD_UPDATE)).thenThrow(new NotFoundException("bad thing"));
+//        doThrow(new NotFoundException("Customer not found")).when(customerDao).save(Customer_BAD_UPDATE);
+        doThrow(new NotFoundException("Customer not found")).when(customerDao).deleteById(7);
     }
 
     @Test
@@ -78,8 +81,7 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void getAllCustomers() throws Exception()
-
+    public void getAllCustomers() throws Exception
     {
         String output_json = mapper.writeValueAsString(Customer_LIST);
         mvc.perform(get("/customer"))
@@ -110,18 +112,16 @@ public class CustomerControllerTest {
                 .andExpect(status().isNoContent());
     }
     //exception test
-    /*
     @Test
     public void shouldReturnNotFoundWhenUpdateCustomerNonExistentId() throws Exception {
-        String input_json = mapper.writeValueAsString(Customer_BAD_UPDATE)
+        String input_json = mapper.writeValueAsString(Customer_BAD_UPDATE);
         mvc.perform(put("/customer")
                 .content(input_json)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-        )
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(containsString("bad thing")));
     }
-    */
+
 }

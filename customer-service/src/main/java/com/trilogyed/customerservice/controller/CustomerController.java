@@ -20,7 +20,14 @@ public class CustomerController {
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Customer saveCustomer(@RequestBody Customer o) {
-        return customerDao.save(o);
+        Customer returnVal = null;
+        try {
+            returnVal = customerDao.save(o);
+        } catch (Exception ex) {
+            System.out.println("Got a exception! " + ex.getMessage());
+            System.out.println("More! " + ex.getCause());
+        }
+        return returnVal;
     }
 
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
@@ -42,12 +49,8 @@ public class CustomerController {
     @RequestMapping(value = "/customer", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public String updateCustomer(@RequestBody Customer o) throws Exception {
-        try {
             customerDao.save(o);
             return "Update: Successful";
-        } catch (Exception e) {
-            return "Update: Fail";
-        }
     }
 
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE)
