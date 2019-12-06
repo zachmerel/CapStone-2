@@ -28,6 +28,11 @@ public class InvoiceController {
         return invoiceRepo.findAll();
     }
 
+    @GetMapping(value = "/{id}")
+    public List<Invoice> findInvoicesByCustomerId(@PathVariable int id) {
+        return invoiceRepo.findInvoicesByCustomerId(id);
+    }
+
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateInvoice(@RequestBody @Valid Invoice invoice) {
