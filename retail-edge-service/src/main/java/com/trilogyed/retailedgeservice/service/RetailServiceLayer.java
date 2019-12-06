@@ -26,7 +26,7 @@ public class RetailServiceLayer {
     }
 
     public Invoice submitInvoice(Invoice invoice) {
-        return ((InvoiceClient)invoiceClient).createInvoice(invoice);
+        return (invoiceClient).createInvoice(invoice);
     }
 
     public Invoice getInvoiceById(int id) {
