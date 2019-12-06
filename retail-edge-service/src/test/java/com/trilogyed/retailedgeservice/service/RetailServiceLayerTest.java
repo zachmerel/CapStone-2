@@ -12,6 +12,7 @@ import java.util.List;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.junit.Assert.*;
+
 public class RetailServiceLayerTest {
     private CustomerClient customerClient;
     private PurchaseClient invoiceClient;
@@ -31,7 +32,7 @@ public class RetailServiceLayerTest {
     }
 
     @Test
-    public void shouldSubmitInvoice(){
+    public void shouldSubmitInvoice() {
         Invoice invoice = new Invoice();
         invoice.setCustomerId(1);
         invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
@@ -39,25 +40,53 @@ public class RetailServiceLayerTest {
         invoiceWithId.setInvoiceId(1);
         invoiceWithId.setCustomerId(1);
         invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
-    assertEquals(invoiceWithId,service.submitInvoice(invoice));
-        }
+        assertEquals(invoiceWithId, service.submitInvoice(invoice));
+    }
+
+    @Test
+    public void shouldGetInvoiceById() {
+        Invoice invoice = new Invoice();
+        invoice.setCustomerId(1);
+        invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        Invoice invoiceWithId = new Invoice();
+        invoiceWithId.setInvoiceId(1);
+        invoiceWithId.setCustomerId(1);
+        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        assertEquals(invoiceWithId, service.getInvoiceById(1));
+    }
+
+    @Test
+    public void shouldGetAllInvoices_optionallyByCustomerId() {
+        Invoice invoice = new Invoice();
+        invoice.setCustomerId(1);
+        invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        Invoice invoiceWithId = new Invoice();
+        invoiceWithId.setInvoiceId(1);
+        invoiceWithId.setCustomerId(1);
+        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        List<Invoice> invoiceList = new ArrayList<>();
+        invoiceList.add(invoiceWithId);
+        assertEquals(invoiceList, service.getAllInvoices());
+        assertEquals(invoiceList, service.getInvoicesByCustomerId(1));
+    }
+
 
     private void setUpProductClientMock() {
-    productClient = mock(ProductClient.class);
-    Product product = new Product();
-    //        product.setCustomerId(1);
-    //        product.setPoints(1);
-    //        product.setMemberDate(LocalDate.parse("2019-12-05"));
-    Product productWithId = new Product();
-    //        productWithId.setCustomerId(1);
-    //        productWithId.setPoints(1);
-    //        productWithId.setMemberDate(LocalDate.parse("2019-12-05"));
-    //        productWithId.setProductId(1);
-    List<Product> productList = new ArrayList<>();
-    productList.add(productWithId);
-    doReturn(productWithId).when(productClient).getProductById(1);
-    doReturn(productList).when(productClient).getAllProducts();
-    doReturn(productWithId).when(productClient).createProduct(product);
+        productClient = mock(ProductClient.class);
+        Product product = new Product();
+        //        product.setCustomerId(1);
+        //        product.setPoints(1);
+        //        product.setMemberDate(LocalDate.parse("2019-12-05"));
+        Product productWithId = new Product();
+        //        productWithId.setCustomerId(1);
+        //        productWithId.setPoints(1);
+        //        productWithId.setMemberDate(LocalDate.parse("2019-12-05"));
+        //        productWithId.setProductId(1);
+        List<Product> productList = new ArrayList<>();
+        productList.add(productWithId);
+        doReturn(productWithId).when(productClient).getProductById(1);
+        doReturn(productList).when(productClient).getAllProducts();
+        doReturn(productWithId).when(productClient).createProduct(product);
 
     }
 
@@ -112,13 +141,14 @@ public class RetailServiceLayerTest {
         invoiceList.add(invoiceWithId);
         doReturn(invoiceWithId).when(invoiceClient).getInvoiceById(1);
         doReturn(invoiceList).when(invoiceClient).getAllInvoices();
+        doReturn(invoiceList).when(invoiceClient).findInvoicesByCustomerId(1);
         doReturn(invoiceWithId).when(invoiceClient).createInvoice(invoice);
     }
 
     private void setUpCustomerClientMock() {
         customerClient = mock(CustomerClient.class);
         final Customer customer = new Customer("Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
-        final Customer customerWithId = new Customer(1,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
+        final Customer customerWithId = new Customer(1, "Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customerWithId);
         doReturn(customerWithId).when(customerClient).getCustomerById(1);

@@ -24,7 +24,7 @@ public class RetailController {
     }
     @RequestMapping(value = "/invoices/customer/{id}", method = RequestMethod.GET)
     public List<Invoice> getInvoicesByCustomerId(@PathVariable int id) {
-        return retailServiceLayer.getInvoicesByCustomerId();
+        return retailServiceLayer.getInvoicesByCustomerId(id);
     }
     @RequestMapping(value = "/products/inventory", method = RequestMethod.GET)
     public List<Product> getProductsInInventory() {

@@ -26,19 +26,19 @@ public class RetailServiceLayer {
     }
 
     public Invoice submitInvoice(Invoice invoice) {
-        return (invoiceClient).createInvoice(invoice);
+        return invoiceClient.createInvoice(invoice);
     }
 
     public Invoice getInvoiceById(int id) {
-        return null;
+        return invoiceClient.getInvoiceById(id);
     }
 
     public List<Invoice> getAllInvoices() {
-        return null;
+        return invoiceClient.getAllInvoices();
     }
 
-    public List<Invoice> getInvoicesByCustomerId() {
-        return null;
+    public List<Invoice> getInvoicesByCustomerId(int customerId) {
+        return invoiceClient.findInvoicesByCustomerId(customerId);
     }
 
     public List<Product> getProductsInInventory() {
