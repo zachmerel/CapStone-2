@@ -4,6 +4,7 @@ package com.trilogyed.productservice.controller;
 //import com.trilogyed.productservice.controller.Product;
 
 import com.trilogyed.productservice.dao.ProductDao;
+import com.trilogyed.productservice.model.Inventory;
 import com.trilogyed.productservice.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,15 @@ public class ProductController {
         } catch (NullPointerException n) {
             throw new IllegalArgumentException("illegal argument or another exception idk");
         }
+    }
+
+    @RequestMapping(value = "/product/inventory", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public String updateProductInventory(@RequestBody Inventory inventory) throws Exception {
+        Product productToGet = productDao.getOne(inventory.getProductId());
+        productToGet.setinventory(productToGet.getinventory());
+        productDao.save(productToGet);
+        return "Update: Successful";
     }
 
     @RequestMapping(value = "/product", method = RequestMethod.GET)
