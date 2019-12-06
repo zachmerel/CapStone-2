@@ -3,6 +3,7 @@ package com.trilogyed.productservice.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.trilogyed.productservice.dao.ProductDao;
 import com.trilogyed.productservice.exception.NotFoundException;
+import com.trilogyed.productservice.model.Inventory;
 import com.trilogyed.productservice.model.Product;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,28 +33,45 @@ public class ProductControllerTest {
     private MockMvc mvc;
     @MockBean
     private ProductDao productDao;
-    private static final Product Product_NO_ID = new Product("Water Bottle", "28oz water bottle",9.99,5.00);
-    private static final Product Product_ID = new Product(1,"Water Bottle", "28oz water bottle",9.99,5.00);
+    private static final Product Product_NO_ID = new Product("Water Bottle", "28oz water bottle",9.99,5.00,5);
+    private static final Product Product_ID = new Product(1,"Water Bottle", "28oz water bottle",9.99,5.00,5);
     private static final List<Product> Product_LIST = new ArrayList<>(Arrays.asList(Product_ID));
-    private static final Product Product_UPDATED = new Product(1, "Water Bottle", "40oz water bottle",9.99,5.00);
-    private static final Product Product_BAD_UPDATE = new Product(7, "Water Bottle", "28oz water bottle",9.99,5.00);
+    private static final Product Product_UPDATED = new Product(1, "Water Bottle", "40oz water bottle",9.99,5.00,5);
+    private static final Inventory INVENTORY = new Inventory(1,0);
+    private static final Product Product_INVENTORY_UPDATED= new Product(1,"Water Bottle", "28oz water bottle",9.99,5.00,5);
+    private static final Product Product_BAD_UPDATE = new Product(7, "Water Bottle", "28oz water bottle",9.99,5.00,5);
     private static final String SUCCESS = "Success";
     private static final String FAIL = "Fail";
     private ObjectMapper mapper = new ObjectMapper();
 
     @Before
     public void setUpMock() {
+        //CHECK THIS ONE
+//        when(productDao.findProductByInvoiceId(1)).thenReturn(Product_LIST);
+        //CHECK THIS ONE
+//        when(productDao.findProductByInventory(5)).thenReturn(Product_LIST);
         when(productDao.save(Product_NO_ID)).thenReturn(Product_ID);
+        when(productDao.save(Product_INVENTORY_UPDATED)).thenReturn(Product_INVENTORY_UPDATED);
         when(productDao.getOne(1)).thenReturn(Product_ID);
+
         when(productDao.findAll()).thenReturn(Product_LIST);
-        //success and failure messages sent from service layer if applicable
-        //when(productDao.updateProduct(Product_UPDATED)).thenReturn("Update: "+ SUCCESS);
-        //when(productDao.deleteProduct(1)).thenReturn("Delete: " + SUCCESS);
-        //when(productDao.updateProduct(Product_BAD_UPDATE)).thenReturn("Update: "+ FAIL);
-        //when(productDao.deleteProduct(1)).thenReturn("Delete: " + FAIL);
+        //CHECK THIS ONE
+//        when(productDao.getOne(1)).thenReturn(Product_INVENTORY_UPDATED);
         //exceptions
         when(productDao.save(Product_BAD_UPDATE)).thenThrow(new NotFoundException("bad thing"));
         doThrow(new NotFoundException("Product is not found")).when(productDao).deleteById(7);
+    }
+
+    //CHECK THIS ONE
+    @Test
+    public void updateInventory() throws Exception{
+        String input_json = mapper.writeValueAsString(Product_INVENTORY_UPDATED);
+        mvc.perform(put("/product/inventory")
+                .content(input_json)
+                .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -99,10 +116,6 @@ public class ProductControllerTest {
         )
                 .andDo(print())
                 .andExpect(status().isOk());
-        //for things with random or json parsing errors
-        //.andExpect(jsonPath("$.id").value("" + REAL_LOCATION.getId()))
-        //.andExpect(jsonPath("$.description").value(REAL_LOCATION.getDescription()))
-        //.andExpect(jsonPath("$.location").value(REAL_LOCATION.getLocation()));
     }
 
     @Test
@@ -111,7 +124,6 @@ public class ProductControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
-    //exception test
 
     @Test
     public void shouldReturnNotFoundWhenUpdateProductNonExistentId() throws Exception {
