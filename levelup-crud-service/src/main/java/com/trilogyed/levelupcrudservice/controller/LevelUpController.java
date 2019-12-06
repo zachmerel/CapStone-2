@@ -5,6 +5,7 @@ import com.trilogyed.levelupcrudservice.dao.LevelUpDao;
 import com.trilogyed.levelupcrudservice.dto.LevelUp;
 import com.trilogyed.levelupcrudservice.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/levelUp")
+@RefreshScope
 public class LevelUpController {
     @Autowired
     private LevelUpDao levelUpRepo;

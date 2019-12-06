@@ -1,6 +1,5 @@
 package com.trilogyed.retailedgeservice.service;
 
-import com.netflix.discovery.converters.Auto;
 import com.trilogyed.retailedgeservice.dto.Invoice;
 import com.trilogyed.retailedgeservice.dto.Product;
 import com.trilogyed.retailedgeservice.feign.*;
@@ -12,13 +11,13 @@ import java.util.List;
 @Service
 public class RetailServiceLayer {
     private CustomerClient customerClient;
-    private InvoiceClient invoiceClient;
-    private InvoiceItemClient invoiceItemClient;
+    private PurchaseClient invoiceClient;
+    private PurchaseClient invoiceItemClient;
     private LevelUpClient levelUpClient;
     private ProductClient productClient;
 
     @Autowired
-    public RetailServiceLayer(CustomerClient customerClient, InvoiceClient invoiceClient, InvoiceItemClient invoiceItemClient, LevelUpClient levelUpClient, ProductClient productClient) {
+    public RetailServiceLayer(CustomerClient customerClient, PurchaseClient invoiceClient, PurchaseClient invoiceItemClient, LevelUpClient levelUpClient, ProductClient productClient) {
         this.customerClient = customerClient;
         this.invoiceClient = invoiceClient;
         this.invoiceItemClient = invoiceItemClient;
@@ -31,15 +30,15 @@ public class RetailServiceLayer {
     }
 
     public Invoice getInvoiceById(int id) {
-        return null;
+        return invoiceClient.getInvoiceById(id);
     }
 
     public List<Invoice> getAllInvoices() {
-        return null;
+        return invoiceClient.getAllInvoices();
     }
 
-    public List<Invoice> getInvoicesByCustomerId() {
-        return null;
+    public List<Invoice> getInvoicesByCustomerId(int customerId) {
+        return invoiceClient.findInvoicesByCustomerId(customerId);
     }
 
     public List<Product> getProductsInInventory() {

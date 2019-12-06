@@ -2,6 +2,7 @@ package com.trilogyed.invoicecrudservice.controller;
 
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.trilogyed.invoicecrudservice.dao.InvoiceItemRepo;
+import com.trilogyed.invoicecrudservice.dto.Invoice;
 import com.trilogyed.invoicecrudservice.dto.InvoiceItem;
 import com.trilogyed.invoicecrudservice.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class InvoiceItemController {
     @GetMapping
     public List<InvoiceItem> getAllInvoiceItems() {
         return invoiceItemRepo.findAll();
+    }
+
+    @GetMapping(value = "/invoice/{id}")
+    public List<InvoiceItem> findInvoiceItemsByInvoiceId(@PathVariable int id) {
+        return invoiceItemRepo.findInvoiceItemsByInvoiceId(id);
     }
 
     @PutMapping

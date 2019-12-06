@@ -3,15 +3,12 @@ package com.trilogyed.retailedgeservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.*;
+
 import java.util.Objects;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "customer")
+
 public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Integer customerId;
     private String firstName;
     private String lastName;
