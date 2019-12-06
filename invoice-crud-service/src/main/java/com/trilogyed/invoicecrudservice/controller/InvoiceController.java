@@ -28,7 +28,7 @@ public class InvoiceController {
         return invoiceRepo.findAll();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/customer/{id}")
     public List<Invoice> findInvoicesByCustomerId(@PathVariable int id) {
         return invoiceRepo.findInvoicesByCustomerId(id);
     }

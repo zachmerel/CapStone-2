@@ -30,7 +30,7 @@ public class InvoiceItemController {
         return invoiceItemRepo.findAll();
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/invoice/{id}")
     public List<InvoiceItem> findInvoiceItemsByInvoiceId(@PathVariable int id) {
         return invoiceItemRepo.findInvoiceItemsByInvoiceId(id);
     }

@@ -1,6 +1,5 @@
 package com.trilogyed.retailedgeservice.service;
 
-import com.netflix.discovery.converters.Auto;
 import com.trilogyed.retailedgeservice.dto.Invoice;
 import com.trilogyed.retailedgeservice.dto.Product;
 import com.trilogyed.retailedgeservice.feign.*;
@@ -12,13 +11,13 @@ import java.util.List;
 @Service
 public class RetailServiceLayer {
     private CustomerClient customerClient;
-    private InvoiceClient invoiceClient;
-    private InvoiceItemClient invoiceItemClient;
+    private PurchaseClient invoiceClient;
+    private PurchaseClient invoiceItemClient;
     private LevelUpClient levelUpClient;
     private ProductClient productClient;
 
     @Autowired
-    public RetailServiceLayer(CustomerClient customerClient, InvoiceClient invoiceClient, InvoiceItemClient invoiceItemClient, LevelUpClient levelUpClient, ProductClient productClient) {
+    public RetailServiceLayer(CustomerClient customerClient, PurchaseClient invoiceClient, PurchaseClient invoiceItemClient, LevelUpClient levelUpClient, ProductClient productClient) {
         this.customerClient = customerClient;
         this.invoiceClient = invoiceClient;
         this.invoiceItemClient = invoiceItemClient;
@@ -27,7 +26,7 @@ public class RetailServiceLayer {
     }
 
     public Invoice submitInvoice(Invoice invoice) {
-        return invoiceClient.createInvoice(invoice);
+        return ((InvoiceClient)invoiceClient).createInvoice(invoice);
     }
 
     public Invoice getInvoiceById(int id) {

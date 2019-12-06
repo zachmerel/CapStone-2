@@ -7,19 +7,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-
-import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.time.LocalDate;
 import java.util.Objects;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "level_up")
-//@Proxy(lazy = false)
 public class LevelUp {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer levelUpId;
     @Min(value = 1, message = "customerId should be specified as a positive int.")
     private int customerId;

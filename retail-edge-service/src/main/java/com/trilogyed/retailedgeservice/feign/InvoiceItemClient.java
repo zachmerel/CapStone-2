@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@FeignClient(name = "invoice-crud-service")
-public interface InvoiceItemClient {
+//@FeignClient(name = "invoice-crud-service")
+public interface InvoiceItemClient extends PurchaseClient{
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -29,6 +29,6 @@ public interface InvoiceItemClient {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceItemById(@PathVariable int id);
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/invoice/{id}")
     public List<InvoiceItem> findInvoiceItemsByInvoiceId(@PathVariable int id);
 }

@@ -2,18 +2,13 @@ package com.trilogyed.retailedgeservice.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.util.Objects;
 
-@Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "invoice_item")
+
 //@Proxy(lazy = false)
 public class InvoiceItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Integer invoiceItemId;
     @Min(value = 1, message = "invoiceId should be specified as a positive int.")
     private int invoiceId;
