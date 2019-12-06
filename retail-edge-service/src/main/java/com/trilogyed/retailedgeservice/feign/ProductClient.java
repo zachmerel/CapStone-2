@@ -1,5 +1,6 @@
 package com.trilogyed.retailedgeservice.feign;
 
+import com.trilogyed.retailedgeservice.dto.Inventory;
 import com.trilogyed.retailedgeservice.dto.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
@@ -28,4 +29,10 @@ public interface ProductClient {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProductById(@PathVariable int id);
+
+    @RequestMapping(value = "/product/inventory", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public String updateProductInventory(@RequestBody Inventory inventory);
+
+
 }
