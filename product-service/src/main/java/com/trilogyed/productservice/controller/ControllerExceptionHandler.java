@@ -1,6 +1,6 @@
-package com.trilogyed.customerservice.controller;
+package com.trilogyed.productservice.controller;
 
-import com.trilogyed.customerservice.exception.NotFoundException;
+import com.trilogyed.productservice.exception.NotFoundException;
 import org.springframework.hateoas.mediatype.vnderrors.VndErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +34,12 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(vndErrors, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-//    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-//    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-//    public ResponseEntity<VndErrors> handleOutOfRangeException(HttpMessageNotReadableException e, WebRequest request) {
-//        VndErrors error = new VndErrors(request.toString(), e.getMessage());
-//        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-//    }
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<VndErrors> handleOutOfRangeException(HttpMessageNotReadableException e, WebRequest request) {
+        VndErrors error = new VndErrors(request.toString(), e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
     @ExceptionHandler(value = {NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
