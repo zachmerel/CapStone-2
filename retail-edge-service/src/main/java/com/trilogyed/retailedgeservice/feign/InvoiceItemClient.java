@@ -28,4 +28,7 @@ public interface InvoiceItemClient {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceItemById(@PathVariable int id);
+
+    @GetMapping(value = "/{id}")
+    public List<InvoiceItem> findInvoiceItemsByInvoiceId(@PathVariable int id);
 }
