@@ -9,45 +9,33 @@ import java.util.Objects;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "product")
 public class Product {
-    /*
-    !!!!!!!!!!!!!!!!!!!!!!!
-        DO
-            NOT
-        FORGET
-            TO
-        GENERATE
-            EQUALS
-        TOSTRING
-            AND 
-        HASHCODE
-    !!!!!!!!!!!!!!!!!!!!!!!
-    */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer productId;
     private String product_name;
     private String product_description;
     private double list_price;
-    private double unit_cost;
+    private double unit_price;
     private int inventory;
 
     public Product() {
     }
 
-    public Product(String product_name, String product_description, double list_price, double unit_cost, int inventory) {
+    public Product(String product_name, String product_description, double list_price, double unit_price, int inventory) {
         this.product_name = product_name;
         this.product_description = product_description;
         this.list_price = list_price;
-        this.unit_cost = unit_cost;
+        this.unit_price = unit_price;
         this.inventory = inventory;
     }
 
-    public Product(Integer productId, String product_name, String product_description, double list_price, double unit_cost, int inventory) {
+    public Product(Integer productId, String product_name, String product_description, double list_price, double unit_price, int inventory) {
         this.productId = productId;
         this.product_name = product_name;
         this.product_description = product_description;
         this.list_price = list_price;
-        this.unit_cost = unit_cost;
+        this.unit_price = unit_price;
         this.inventory = inventory;
     }
 
@@ -83,12 +71,12 @@ public class Product {
         this.list_price = list_price;
     }
 
-    public double getunit_cost() {
-        return unit_cost;
+    public double getunit_price() {
+        return unit_price;
     }
 
-    public void setunit_cost(double unit_cost) {
-        this.unit_cost = unit_cost;
+    public void setUnit_price(double unit_price) {
+        this.unit_price = unit_price;
     }
 
     public int getinventory() {
@@ -106,7 +94,7 @@ public class Product {
                 ", product_name='" + product_name + '\'' +
                 ", product_description='" + product_description + '\'' +
                 ", list_price=" + list_price +
-                ", unit_cost=" + unit_cost +
+                ", unit_price=" + unit_price +
                 ", inventory=" + inventory +
                 '}';
     }
@@ -117,7 +105,7 @@ public class Product {
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
         return Double.compare(product.list_price, list_price) == 0 &&
-                Double.compare(product.unit_cost, unit_cost) == 0 &&
+                Double.compare(product.unit_price, unit_price) == 0 &&
                 inventory == product.inventory &&
                 Objects.equals(productId, product.productId) &&
                 Objects.equals(product_name, product.product_name) &&
@@ -126,6 +114,6 @@ public class Product {
 
     @Override
     public int hashCode() {
-        return Objects.hash(productId, product_name, product_description, list_price, unit_cost, inventory);
+        return Objects.hash(productId, product_name, product_description, list_price, unit_price, inventory);
     }
 }

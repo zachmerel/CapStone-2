@@ -1,22 +1,31 @@
 package com.trilogyed.productservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "product")
+@Proxy(lazy = false)
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer productId;
+    @NotEmpty
     private String product_name;
+    @NotEmpty
     private String product_description;
+    @Min(value = (long).01, message = "list price must be at least one cent")
     private double list_price;
+    @Min(value = (long).01, message = "unit price must be at least one cent")
     private double unit_price;
+    @Min(value = 1, message = "inventory should be specified as a positive int.")
     private int inventory;
 
 

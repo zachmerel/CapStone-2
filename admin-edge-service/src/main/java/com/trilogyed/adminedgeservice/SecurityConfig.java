@@ -46,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity.authorizeRequests()
                 //EMPLOYEE AUTHORITIES
+                .mvcMatchers(HttpMethod.GET, "/customer").hasAuthority("ROLE_EMPLOYEE")
                 .mvcMatchers(HttpMethod.GET, "/product/{id}").hasAuthority("ROLE_EMPLOYEE")
                 .mvcMatchers(HttpMethod.GET, "/invoiceItem/{id}").hasAuthority("ROLE_EMPLOYEE")
                 .mvcMatchers(HttpMethod.GET, "/levelUp/{id}").hasAuthority("ROLE_EMPLOYEE")
@@ -69,8 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .mvcMatchers(HttpMethod.DELETE, "/invoiceItem/{id}").hasAuthority("ROLE_ADMIN")
                 .mvcMatchers(HttpMethod.DELETE, "/levelUp/{id}").hasAuthority("ROLE_ADMIN")
                 .mvcMatchers(HttpMethod.DELETE, "/invoice/{id}").hasAuthority("ROLE_ADMIN")
-                .mvcMatchers(HttpMethod.DELETE, "/customer/{id}").hasAuthority("ROLE_ADMIN");
-
+                .mvcMatchers(HttpMethod.DELETE, "/customer/{id}").hasAuthority("ROLE_ADMIN")
+.anyRequest().permitAll();
 
         httpSecurity
                 .logout()

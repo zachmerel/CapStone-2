@@ -9,8 +9,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -33,6 +37,8 @@ public class CustomerControllerTest {
     private MockMvc mvc;
     @MockBean
     private CustomerDao customerDao;
+    private JacksonTester<Customer> invoiceJacksonTester;
+    private JacksonTester<List<Customer>> invoiceListJacksonTester;
     private static final Customer Customer_NO_ID = new Customer("Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
     private static final Customer Customer_ID = new Customer(1,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
     private static final List<Customer> Customer_LIST = new ArrayList<>(Arrays.asList(Customer_ID));
@@ -122,5 +128,22 @@ public class CustomerControllerTest {
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(containsString("bad thing")));
     }
+
+//    @Test
+//    public void shouldReturn422WhenInvalidInput() throws Exception {
+//
+//        MockHttpServletResponse addEmptyStringResponse = mvc.perform(
+//                post("/customer").contentType(MediaType.APPLICATION_JSON)
+//                        .content(invoiceJacksonTester.write(new Customer()).getJson())
+//        ).andReturn().getResponse();
+//
+//        assertThat(addEmptyStringResponse.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
+//
+//        MockHttpServletResponse addNullResponse = mvc.perform(
+//                post("/customer").contentType(MediaType.APPLICATION_JSON)
+//        ).andReturn().getResponse();
+//
+//        assertThat(addNullResponse.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
+//    }
 
 }

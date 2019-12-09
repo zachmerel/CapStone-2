@@ -2,10 +2,12 @@ package com.trilogyed.adminedgeservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(exclude={SecurityAutoConfiguration.class})
 @EnableFeignClients
 @EnableDiscoveryClient
 public class AdminEdgeServiceApplication {

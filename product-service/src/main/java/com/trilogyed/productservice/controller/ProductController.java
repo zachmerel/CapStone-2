@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class ProductController {
 
     @RequestMapping(value = "/product", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Product saveProduct(@RequestBody Product o) {
+    public Product saveProduct(@RequestBody @Valid Product o) {
         return productDao.save(o);
     }
 
@@ -38,7 +39,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public String updateProductInventory(@RequestBody Inventory inventory) throws Exception {
         Product productToGet = productDao.getOne(inventory.getProductId());
-        productToGet.setinventory(productToGet.getinventory());
+        productToGet.setinventory(inventory.getInventory());
         productDao.save(productToGet);
         return "Update: Successful";
     }

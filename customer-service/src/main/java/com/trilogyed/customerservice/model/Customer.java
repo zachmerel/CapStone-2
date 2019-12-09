@@ -3,6 +3,7 @@ package com.trilogyed.customerservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Objects;
 
 @Entity
@@ -12,12 +13,19 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer customerId;
+    @NotEmpty(message = "must provide first name of customer")
     private String firstName;
+    @NotEmpty(message = "must provide last name of customer")
     private String lastName;
+    @NotEmpty(message = "must provide a street for address")
     private String street;
+    @NotEmpty(message = "must provide a city for address")
     private String city;
+    @NotEmpty(message = "must provide a zip code for address")
     private String zip;
+    @NotEmpty(message = "must provide a email for address")
     private String email;
+    @NotEmpty(message = "must provide a phone number")
     private String phone;
 
     public Customer() {
