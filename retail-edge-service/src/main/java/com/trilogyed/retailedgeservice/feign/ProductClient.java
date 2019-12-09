@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(name = "product-service")
+@RequestMapping(value = "/product")
 public interface ProductClient {
 
     @PostMapping

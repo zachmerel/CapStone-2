@@ -33,7 +33,7 @@ public class RetailServiceLayerTest {
     }
 
     @Test
-    public void shouldSubmitInvoice() {
+    public void shouldCreateInvoice() {
         Invoice invoice = new Invoice();
         invoice.setCustomerId(1);
         invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
@@ -41,8 +41,10 @@ public class RetailServiceLayerTest {
         invoiceWithId.setInvoiceId(1);
         invoiceWithId.setCustomerId(1);
         invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
-        assertEquals(invoiceWithId, service.submitInvoice(invoice));
+        assertEquals(invoiceWithId, service.createInvoice(invoice));
     }
+    @Test
+    public void shouldSubmitInvoice(){}
 
     @Test
     public void shouldGetInvoiceById() {

@@ -24,6 +24,11 @@ public class LevelUp {
     public LevelUp() {
     }
 
+    public LevelUp(Integer levelUpId, LocalDate memberDate) {
+        this.levelUpId = levelUpId;
+        this.memberDate = memberDate;
+    }
+
     @Override
     public String toString() {
         return "LevelUp{" +
