@@ -209,8 +209,8 @@ public class RetailServiceLayerTest {
         final Customer customerWithId = new Customer(1, "Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customerWithId);
-        doReturn(customerWithId).when(customerClient).getCustomerById(1);
+        doReturn(customerWithId).when(customerClient).getCustomer(1);
         doReturn(customerList).when(customerClient).getAllCustomers();
-        doReturn(customerWithId).when(customerClient).createCustomer(customer);
+        doReturn(customerWithId).when(customerClient).saveCustomer(customer);
     }
 }

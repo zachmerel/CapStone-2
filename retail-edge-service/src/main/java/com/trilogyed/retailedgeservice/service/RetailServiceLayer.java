@@ -113,7 +113,7 @@ public class RetailServiceLayer {
     InvoiceViewModel buildInvoiceViewModel(Invoice invoice) {
         InvoiceViewModel ivm = new InvoiceViewModel();
         ivm.setPurchaseDate(invoice.getPurchaseDate());
-        ivm.setCustomer(buildCustomerViewModel(customerClient.getCustomerById(invoice.getCustomerId())));
+        ivm.setCustomer(buildCustomerViewModel(customerClient.getCustomer(invoice.getCustomerId())));
         int id=invoice.getInvoiceId();
         ivm.setId(id);
         if(ivm.getInvoiceItems()==null){
@@ -123,7 +123,7 @@ public class RetailServiceLayer {
 
 
     private Customer getCustomer(int id) {
-        return customerClient.getCustomerById(id);
+        return customerClient.getCustomer(id);
     }
     CustomerViewModel buildCustomerViewModel(Customer customer) {
         CustomerViewModel cvm = new CustomerViewModel();
@@ -178,11 +178,11 @@ public class RetailServiceLayer {
 
     //CUSTOMER
     public Customer getCustomerById(int id){
-        return customerClient.getCustomerById(id);
+        return customerClient.getCustomer(id);
     }
 
     public Customer createCustomer(Customer customer){
-        return customerClient.createCustomer(customer);
+        return customerClient.saveCustomer(customer);
     }
 
     public List<Customer> getAllCustomers(){
@@ -194,7 +194,7 @@ public class RetailServiceLayer {
     }
 
     public void deleteCustomerById(int id){
-        customerClient.deleteCustomerById(id);
+        customerClient.deleteCustomer(id);
     }
 
     //PRODUCTS

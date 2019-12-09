@@ -116,10 +116,10 @@ public Customer saveCustomer(@RequestBody Customer o) {
     @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable int id) {
-        retailServiceLayer.deleteCustomerById(id);
+        retailServiceLayer.deleteProductById(id);
     }
 
-    //INVOICE URIs
+//    //INVOICE URIs
     @RequestMapping(value = "/invoice/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceById(@PathVariable int id) {
