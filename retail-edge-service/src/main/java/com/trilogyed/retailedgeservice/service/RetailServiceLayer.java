@@ -36,6 +36,13 @@ public class RetailServiceLayer {
         invoice = createInvoice(invoice);}
         //now it has an id
         InvoiceViewModel ivm = buildInvoiceViewModel(invoice);
+        int totalPrice=0;
+        for (InvoiceItem invoiceItem : ivm.getInvoiceItems()) {
+            totalPrice+=invoiceItem.getUnitPrice()*invoiceItem.getQuantity();
+        }
+        LevelUp levelUp = findLevelUpByCustomerId(ivm.getCustomer().getCustomerId()).get(1);
+        levelUp.setPoints(levelUp.getPoints()+10*(totalPrice/50));
+        levelUpClient.updateLevelUp(levelUp);
         return ivm;
     }
 
@@ -147,9 +154,15 @@ public class RetailServiceLayer {
         for (Integer productId : itemQuantityMap.keySet()) {
             InvoiceItem invoiceItem=new InvoiceItem();
             invoiceItem.setInvoiceId(invoice.getInvoiceId());
+            Product product=getProductById(productId);
             invoiceItem.setProductId(productId);
-            invoiceItem.setQuantity(itemQuantityMap.get(productId));
-            invoiceItem.setUnitPrice(getProductById(productId).getunit_price());
+            int quantity=itemQuantityMap.get(productId);
+            if(quantity>0&&quantity<=product.getinventory())
+                {invoiceItem.setQuantity(quantity);
+                }else{
+                throw new IllegalArgumentException("You have entered and invalid order quantity. Please enter a positive integer less than or equal to "+product.getinventory());
+            }
+            invoiceItem.setUnitPrice(product.getlist_price());
             invoiceItems.add(createInvoiceItem(invoiceItem));
         }
         return buildInvoiceViewModel(invoice);
