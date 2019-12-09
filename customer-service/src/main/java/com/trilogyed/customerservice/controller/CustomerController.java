@@ -15,7 +15,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RefreshScope
 public class CustomerController {
 
     @Autowired
