@@ -60,4 +60,9 @@ public class CustomerController {
             return "Delete: Fail";
         }
     }
+
+    @GetMapping("customer/email/{email}")
+    List<Customer> findCustomersByEmail(@PathVariable String email){
+        return customerDao.findCustomersByEmail(email);
+    }
 }
