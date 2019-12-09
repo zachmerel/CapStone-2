@@ -20,7 +20,7 @@ public class AdminController {
     //CUSTOMER URI
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer saveCustomer(@RequestBody Customer o) {
+    public Customer saveCustomer(@RequestBody @Valid Customer o) {
         return adminServiceLayer.createCustomer(o);
     }
 
@@ -38,7 +38,7 @@ public class AdminController {
 
     @RequestMapping(value = "/customer", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateCustomer(@RequestBody Customer o) throws Exception {
+    public void updateCustomer(@RequestBody @Valid Customer o) throws Exception {
         adminServiceLayer.updateCustomer(o);
     }
 
@@ -52,7 +52,7 @@ public class AdminController {
     //PRODUCT URIs
     @RequestMapping(value = "/product", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Product saveProduct(@RequestBody Product o) {
+    public Product saveProduct(@RequestBody @Valid Product o) {
         return adminServiceLayer.createProduct(o);
     }
 
@@ -64,7 +64,7 @@ public class AdminController {
 
     @RequestMapping(value = "/product/inventory", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateProductInventory(@RequestBody Inventory inventory) throws Exception {
+    public void updateProductInventory(@RequestBody @Valid Inventory inventory) throws Exception {
         adminServiceLayer.updateProductInventory(inventory);
     }
 
@@ -76,7 +76,7 @@ public class AdminController {
 
     @RequestMapping(value = "/product", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateProduct(@RequestBody Product o) throws Exception {
+    public void updateProduct(@RequestBody @Valid Product o) throws Exception {
         adminServiceLayer.updateProduct(o);
     }
 
@@ -89,7 +89,7 @@ public class AdminController {
     //INVOICE URIs
     @RequestMapping(value = "/invoice", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Invoice submitInvoice(@RequestBody Invoice invoice) {
+    public Invoice submitInvoice(@RequestBody @Valid Invoice invoice) {
         return adminServiceLayer.createInvoice(invoice);
     }
 

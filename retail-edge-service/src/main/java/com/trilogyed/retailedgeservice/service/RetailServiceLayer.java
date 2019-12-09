@@ -175,4 +175,78 @@ public class RetailServiceLayer {
     private List<Customer> getCustomerByEmail(String email) {
         return customerClient.findCustomersByEmail(email);
     }
+
+    //CUSTOMER
+    public Customer getCustomerById(int id){
+        return customerClient.getCustomerById(id);
+    }
+
+    public Customer createCustomer(Customer customer){
+        return customerClient.createCustomer(customer);
+    }
+
+    public List<Customer> getAllCustomers(){
+        return customerClient.getAllCustomers();
+    }
+
+    public void updateCustomer(Customer customer){
+         customerClient.updateCustomer(customer);
+    }
+
+    public void deleteCustomerById(int id){
+        customerClient.deleteCustomerById(id);
+    }
+
+    //PRODUCTS
+    public Product createProduct(Product product){
+        return productClient.createProduct(product);
+    }
+
+    public void updateProductInventory(Inventory inventory){
+        productClient.updateProductInventory(inventory);
+    }
+
+    public List<Product> getAllProducts(){
+        return productClient.getAllProducts();
+    }
+
+    public void updateProduct(Product product){
+         productClient.updateProduct(product);
+    }
+
+    public void deleteProductById(int id){
+        productClient.deleteProductById(id);
+    }
+
+    //INVOICE
+
+    public void deleteInvoiceById(int id){
+        invoiceClient.deleteInvoiceById(id);
+    }
+
+    public void updateInvoice(Invoice invoice){
+        invoiceClient.updateInvoice(invoice);
+    }
+
+    //LEVEL UPS
+
+    public LevelUp createLevelUp(LevelUp levelUp){
+        return levelUpClient.createLevelUp(levelUp);
+    }
+
+    public LevelUp getLevelUpById(int id){
+        return levelUpClient.getLevelUpById(id);
+    }
+
+    public List<LevelUp> getAllLevelUps(){
+        return levelUpClient.getAllLevelUps();
+    }
+
+    public void deleteLevelUpById(int id){
+        levelUpClient.deleteLevelUpById(id);
+    }
+
+    public void updateLevelUp(LevelUp levelUp){
+        levelUpClient.updateLevelUp(levelUp);
+    }
 }

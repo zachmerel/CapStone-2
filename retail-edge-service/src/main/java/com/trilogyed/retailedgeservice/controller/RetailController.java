@@ -1,12 +1,12 @@
 package com.trilogyed.retailedgeservice.controller;
 
-import com.trilogyed.retailedgeservice.dto.Invoice;
-import com.trilogyed.retailedgeservice.dto.InvoiceItem;
-import com.trilogyed.retailedgeservice.dto.Product;
+import com.trilogyed.retailedgeservice.dto.*;
 import com.trilogyed.retailedgeservice.service.RetailServiceLayer;
 import com.trilogyed.retailedgeservice.view.InvoiceViewModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,5 +49,117 @@ public class RetailController {
     @PostMapping(value = "/order/email/{email}")
     public InvoiceViewModel order(@PathVariable String email, @RequestBody Map<Integer,Integer> itemQuantityMap){
         return retailServiceLayer.order(email,itemQuantityMap);
+    }
+//-------------------------imported from zack
+@RequestMapping(value = "/customer", method = RequestMethod.POST)
+@ResponseStatus(HttpStatus.CREATED)
+public Customer saveCustomer(@RequestBody Customer o) {
+    return retailServiceLayer.createCustomer(o);
+}
+
+    @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Customer getCustomer(@PathVariable int id) throws IllegalArgumentException {
+        return retailServiceLayer.getCustomerById(id);
+    }
+
+    @RequestMapping(value = "/customer", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Customer> getAllCustomers() {
+        return retailServiceLayer.getAllCustomers();
+    }
+
+    @RequestMapping(value = "/customer", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateCustomer(@RequestBody Customer o) throws Exception {
+        retailServiceLayer.updateCustomer(o);
+    }
+
+    @RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCustomer(@PathVariable int id) {
+        retailServiceLayer.deleteCustomerById(id);
+
+    }
+
+    //PRODUCT URIs
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Product saveProduct(@RequestBody Product o) {
+        return retailServiceLayer.createProduct(o);
+    }
+
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Product getProduct(@PathVariable int id) throws IllegalArgumentException {
+        return retailServiceLayer.getProductById(id);
+    }
+
+    @RequestMapping(value = "/product/inventory", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProductInventory(@RequestBody Inventory inventory) throws Exception {
+        retailServiceLayer.updateProductInventory(inventory);
+    }
+
+    @RequestMapping(value = "/product", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Product> getAllProducts() {
+        return retailServiceLayer.getAllProducts();
+    }
+
+    @RequestMapping(value = "/product", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProduct(@RequestBody Product o) throws Exception {
+        retailServiceLayer.updateProduct(o);
+    }
+
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable int id) {
+        retailServiceLayer.deleteCustomerById(id);
+    }
+
+    //INVOICE URIs
+    @RequestMapping(value = "/invoice/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteInvoiceById(@PathVariable int id) {
+        retailServiceLayer.deleteInvoiceById(id);
+    }
+
+    @RequestMapping(value = "/invoice", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateLevelUp(@RequestBody @Valid Invoice invoice) {
+        retailServiceLayer.updateInvoice(invoice);
+    }
+
+    //LEVEL UP URIs
+    @RequestMapping(value = "/levelUp/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public LevelUp getLevelUpById(@PathVariable int id) {
+        return retailServiceLayer.getLevelUpById(id);
+    }
+
+    @RequestMapping(value = "/levelUp/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteLevelUpById(@PathVariable int id) {
+        retailServiceLayer.deleteLevelUpById(id);
+    }
+
+    @RequestMapping(value = "/levelUp", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public LevelUp createLevelUp(@RequestBody @Valid LevelUp levelUp) {
+        return retailServiceLayer.createLevelUp(levelUp);
+    }
+
+    @RequestMapping(value = "/levelUp", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<LevelUp> getAllLevelUps() {
+        return retailServiceLayer.getAllLevelUps();
+    }
+
+    @RequestMapping(value = "/levelUp", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateLevelUp(@RequestBody @Valid LevelUp levelUp) {
+        retailServiceLayer.updateLevelUp(levelUp);
     }
 }
