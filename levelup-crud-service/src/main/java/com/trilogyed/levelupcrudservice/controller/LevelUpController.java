@@ -31,6 +31,12 @@ public class LevelUpController {
         return levelUpRepo.findAll();
     }
 
+    @GetMapping(value = "customerId/{id}")
+    public List<LevelUp> findLevelUpsByCustomerId(@PathVariable int id) {
+        return levelUpRepo.findLevelUpsByCustomerId(id);
+    }
+
+
     @PutMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateLevelUp(@RequestBody @Valid LevelUp levelUp) {

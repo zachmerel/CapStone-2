@@ -1,12 +1,16 @@
 package com.trilogyed.retailedgeservice.service;
 
 import com.trilogyed.retailedgeservice.dto.Invoice;
+import com.trilogyed.retailedgeservice.dto.LevelUp;
 import com.trilogyed.retailedgeservice.dto.Product;
+import com.trilogyed.retailedgeservice.exceptions.MultipleCustomersException;
 import com.trilogyed.retailedgeservice.feign.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RetailServiceLayer {
@@ -42,18 +46,32 @@ public class RetailServiceLayer {
     }
 
     public List<Product> getProductsInInventory() {
-        return null;
+        return productClient.getAllProducts();
     }
 
     public Product getProductById(int id) {
-        return null;
+        return productClient.getProductById(id);
     }
 
     public List<Product> getProductByInvoiceId(int id) {
-        return null;
+        List<Product> products = new ArrayList<>();
+        invoiceItemClient.findInvoiceItemsByInvoiceId(id).forEach(x->
+                products.add(
+                        productClient.getProductById(
+                                x.getProductId()
+                        )));
+        return products;
     }
 
-    public int getLevelUpPointsByCustomerId(int id) {
-        return 0;
+    public Optional<Integer> getLevelUpPointsByCustomerId(int id) {
+        List<LevelUp> levelUps= levelUpClient.findLevelUpByCustomerId(id);
+        if (levelUps.size()==0){
+            return Optional.empty();
+        }else if(
+                levelUps.size()>1
+        ){
+            throw new MultipleCustomersException("There were multiple LevelUp accounts associated with customerId "+id);
+        }else
+        return Optional.of(levelUps.get(0).getPoints());
     }
 }
