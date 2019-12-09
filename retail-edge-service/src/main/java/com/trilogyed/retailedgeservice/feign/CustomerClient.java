@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(name = "customer-service")
+@RequestMapping(value = "/customer")
 public interface CustomerClient {
 
     @PostMapping

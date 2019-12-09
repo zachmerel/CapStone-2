@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(name = "levelup-crud-service")
+@RequestMapping(value = "/levelUp")
 public interface LevelUpClient {
 
     @PostMapping
