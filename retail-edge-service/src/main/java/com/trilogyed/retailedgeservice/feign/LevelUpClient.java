@@ -1,5 +1,6 @@
 package com.trilogyed.retailedgeservice.feign;
 
+import com.trilogyed.retailedgeservice.dto.Invoice;
 import com.trilogyed.retailedgeservice.dto.LevelUp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
@@ -28,4 +29,7 @@ public interface LevelUpClient {
     @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLevelUpById(@PathVariable int id);
+
+    @GetMapping(value = "/customer/{id}")
+    public List<LevelUp> findLevelUpByCustomerId(@PathVariable int id);
 }

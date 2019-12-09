@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -70,18 +71,71 @@ public class RetailServiceLayerTest {
         assertEquals(invoiceList, service.getInvoicesByCustomerId(1));
     }
 
+    @Test
+    public void shouldGetProductsInInventory() {
+        Product productWithId = new Product();
+        productWithId.setinventory(1);
+        productWithId.setlist_price(1);
+        productWithId.setproduct_description("description");
+        productWithId.setproduct_name("name");
+        productWithId.setunit_price(1);
+        productWithId.setProductId(1);
+        List<Product> expectedProductsList = new ArrayList<>();
+        expectedProductsList.add(productWithId);
+        assertEquals(expectedProductsList, service.getProductsInInventory());
+    }
+
+//    @Test
+//    public void shouldGetProductById() {
+//
+//    }
+
+    @Test
+    public void shouldGetProductsByInvoiceId() {
+        Product productWithId = new Product();
+        productWithId.setinventory(1);
+        productWithId.setlist_price(1);
+        productWithId.setproduct_description("description");
+        productWithId.setproduct_name("name");
+        productWithId.setunit_price(1);
+        productWithId.setProductId(1);
+        List<Product> expectedProductsList = new ArrayList<>();
+        expectedProductsList.add(productWithId);
+        assertEquals(expectedProductsList, service.getProductByInvoiceId(1));
+    }
+
+    @Test
+    public void shouldGetLevelUpPointsByCustomerId() {
+        LevelUp levelUp = new LevelUp();
+        levelUp.setCustomerId(1);
+        levelUp.setPoints(1);
+        levelUp.setMemberDate(LocalDate.parse("2019-12-05"));
+        LevelUp levelUpWithId = new LevelUp();
+        levelUpWithId.setCustomerId(1);
+        levelUpWithId.setPoints(1);
+        levelUpWithId.setMemberDate(LocalDate.parse("2019-12-05"));
+        levelUpWithId.setLevelUpId(1);
+        List<LevelUp> levelUpList = new ArrayList<>();
+        levelUpList.add(levelUpWithId);
+        assertEquals(Optional.of(levelUpList.get(0).getPoints()),service.getLevelUpPointsByCustomerId(1));
+    }
+
 
     private void setUpProductClientMock() {
         productClient = mock(ProductClient.class);
         Product product = new Product();
-        //        product.setCustomerId(1);
-        //        product.setPoints(1);
-        //        product.setMemberDate(LocalDate.parse("2019-12-05"));
+        product.setinventory(1);
+        product.setlist_price(1);
+        product.setproduct_description("description");
+        product.setproduct_name("name");
+        product.setunit_price(1);
         Product productWithId = new Product();
-        //        productWithId.setCustomerId(1);
-        //        productWithId.setPoints(1);
-        //        productWithId.setMemberDate(LocalDate.parse("2019-12-05"));
-        //        productWithId.setProductId(1);
+        productWithId.setinventory(1);
+        productWithId.setlist_price(1);
+        productWithId.setproduct_description("description");
+        productWithId.setproduct_name("name");
+        productWithId.setunit_price(1);
+        productWithId.setProductId(1);
         List<Product> productList = new ArrayList<>();
         productList.add(productWithId);
         doReturn(productWithId).when(productClient).getProductById(1);
@@ -105,6 +159,7 @@ public class RetailServiceLayerTest {
         levelUpList.add(levelUpWithId);
         doReturn(levelUpWithId).when(levelUpClient).getLevelUpById(1);
         doReturn(levelUpList).when(levelUpClient).getAllLevelUps();
+        doReturn(levelUpList).when(levelUpClient).findLevelUpByCustomerId(1);
         doReturn(levelUpWithId).when(levelUpClient).createLevelUp(levelUp);
     }
 
@@ -123,9 +178,10 @@ public class RetailServiceLayerTest {
         invoiceItemWithId.setInvoiceItemId(1);
         List<InvoiceItem> invoiceItemList = new ArrayList<>();
         invoiceItemList.add(invoiceItemWithId);
-//        doReturn(invoiceItemWithId).when((InvoiceItemClient)invoiceItemClient).getInvoiceItemById(1);
-//        doReturn(invoiceItemList).when((InvoiceItemClient)invoiceItemClient).getAllInvoiceItems();
-//        doReturn(invoiceItemWithId).when((InvoiceItemClient)invoiceItemClient).createInvoiceItem(invoiceItem);
+        doReturn(invoiceItemWithId).when(invoiceItemClient).getInvoiceItemById(1);
+        doReturn(invoiceItemList).when(invoiceItemClient).getAllInvoiceItems();
+        doReturn(invoiceItemList).when(invoiceItemClient).findInvoiceItemsByInvoiceId(1);
+        doReturn(invoiceItemWithId).when(invoiceItemClient).createInvoiceItem(invoiceItem);
     }
 
     private void setUpInvoiceClientMock() {

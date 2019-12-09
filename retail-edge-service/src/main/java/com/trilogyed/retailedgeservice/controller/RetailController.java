@@ -6,6 +6,7 @@ import com.trilogyed.retailedgeservice.service.RetailServiceLayer;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RetailController {
@@ -39,7 +40,7 @@ public class RetailController {
         return retailServiceLayer.getProductByInvoiceId(id);
     }
     @RequestMapping(value = "/levelup/customer/{id}", method = RequestMethod.GET)
-    public int getLevelUpPointsByCustomerId(int id) {
+    public Optional<Integer> getLevelUpPointsByCustomerId(int id) {
         return retailServiceLayer.getLevelUpPointsByCustomerId(id);
     }
 }
