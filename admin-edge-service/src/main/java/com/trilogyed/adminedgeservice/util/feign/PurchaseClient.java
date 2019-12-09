@@ -10,42 +10,48 @@ import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(name = "invoice-crud-service")
-public interface InvoiceClient {
+public interface PurchaseClient {
 
-    @PostMapping
+    @PostMapping(value = "/invoice")
     @ResponseStatus(HttpStatus.CREATED)
     public Invoice createInvoice(@RequestBody @Valid Invoice invoice);
 
-    @GetMapping
+    @GetMapping(value = "/invoice")
     public List<Invoice> getAllInvoices();
 
-    @PutMapping
+    @PutMapping(value = "/invoice")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateInvoice(@RequestBody @Valid Invoice invoice);
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/invoice/{id}")
     public Invoice getInvoiceById(@PathVariable int id);
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/invoice/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceById(@PathVariable int id);
 
-    //INVOICE ITEM FEIGN
-    @PostMapping
+    @GetMapping(value = "/invoice/customer/{id}")
+    public List<Invoice> findInvoicesByCustomerId(@PathVariable int id);
+
+    @PostMapping(value = "/invoiceItem")
     @ResponseStatus(HttpStatus.CREATED)
     public InvoiceItem createInvoiceItem(@RequestBody @Valid InvoiceItem invoiceItem);
 
-    @GetMapping
+    @GetMapping(value = "/invoiceItem")
     public List<InvoiceItem> getAllInvoiceItems();
 
-    @PutMapping
+    @PutMapping(value = "/invoiceItem")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateInvoiceItem(@RequestBody @Valid InvoiceItem invoiceItem);
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/invoiceItem/{id}")
     public InvoiceItem getInvoiceItemById(@PathVariable int id);
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/invoiceItem/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceItemById(@PathVariable int id);
+
+    @GetMapping(value = "/invoiceItem/invoice/{id}")
+    public List<InvoiceItem> findInvoiceItemsByInvoiceId(@PathVariable int id);
 }
+

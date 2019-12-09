@@ -1,13 +1,8 @@
-package com.trilogyed.productservice.model;
+package com.trilogyed.adminedgeservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
 import java.util.Objects;
 
-
 public class Inventory {
-
     private Integer productId;
     private int inventory;
 

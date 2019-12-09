@@ -34,12 +34,12 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(vndErrors, HttpStatus.UNPROCESSABLE_ENTITY);
     }
 
-//    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
-//    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-//    public ResponseEntity<VndErrors> handleOutOfRangeException(HttpMessageNotReadableException e, WebRequest request) {
-//        VndErrors error = new VndErrors(request.toString(), e.getMessage());
-//        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
-//    }
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<VndErrors> handleOutOfRangeException(HttpMessageNotReadableException e, WebRequest request) {
+        VndErrors error = new VndErrors(request.toString(), e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
     @ExceptionHandler(value = {NotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)

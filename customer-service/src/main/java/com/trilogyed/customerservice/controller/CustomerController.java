@@ -4,14 +4,18 @@ package com.trilogyed.customerservice.controller;
 //import com.trilogyed.customerservice.controller.Customer;
 
 import com.trilogyed.customerservice.dao.CustomerDao;
+import com.trilogyed.customerservice.exception.NotFoundException;
 import com.trilogyed.customerservice.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RefreshScope
 public class CustomerController {
 
     @Autowired
@@ -19,15 +23,8 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer saveCustomer(@RequestBody Customer o) {
-        Customer returnVal = null;
-        try {
-            returnVal = customerDao.save(o);
-        } catch (Exception ex) {
-            System.out.println("Got a exception! " + ex.getMessage());
-            System.out.println("More! " + ex.getCause());
-        }
-        return returnVal;
+    public Customer saveCustomer(@RequestBody @Valid Customer o) {
+        return customerDao.save(o);
     }
 
     @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
@@ -36,7 +33,7 @@ public class CustomerController {
         try {
             return customerDao.getOne(id);
         } catch (NullPointerException n) {
-            throw new IllegalArgumentException("illegal argument or another exception idk");
+            throw new NotFoundException("no customer found with id:" + id);
         }
     }
 
@@ -48,7 +45,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updateCustomer(@RequestBody Customer o) throws Exception {
+    public String updateCustomer(@RequestBody @Valid  Customer o) throws Exception {
             customerDao.save(o);
             return "Update: Successful";
     }

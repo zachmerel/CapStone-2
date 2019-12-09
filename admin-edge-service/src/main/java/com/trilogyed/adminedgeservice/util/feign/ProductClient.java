@@ -1,5 +1,6 @@
 package com.trilogyed.adminedgeservice.util.feign;
 
+import com.trilogyed.adminedgeservice.dto.Inventory;
 import com.trilogyed.adminedgeservice.dto.Product;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
@@ -11,21 +12,27 @@ import java.util.List;
 @FeignClient(name = "product-service")
 public interface ProductClient {
 
-    @PostMapping
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(@RequestBody @Valid Product product);
+    public Product saveProduct(@RequestBody @Valid Product o);
 
-    @GetMapping
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Product getProduct(@PathVariable int id);
+
+    @RequestMapping(value = "/product/inventory", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public String updateProductInventory(@RequestBody @Valid Inventory inventory);
+
+    @RequestMapping(value = "/product", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
     public List<Product> getAllProducts();
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateProduct(@RequestBody @Valid Product product);
+    @RequestMapping(value = "/product", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public String updateProduct(@RequestBody Product o);
 
-    @GetMapping(value = "/{id}")
-    public Product getProductById(@PathVariable int id);
-
-    @DeleteMapping(value = "/{id}")
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProductById(@PathVariable int id);
+    public String deleteProduct(@PathVariable int id);
 }

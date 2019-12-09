@@ -11,21 +11,21 @@ import java.util.List;
 @FeignClient(name = "levelup-crud-service")
 public interface LevelUpClient {
 
-    @PostMapping
+    @PostMapping(value = "/levelUp")
     @ResponseStatus(HttpStatus.CREATED)
     public LevelUp createLevelUp(@RequestBody @Valid LevelUp levelUp);
 
-    @GetMapping
+    @GetMapping(value = "/levelUp")
     public List<LevelUp> getAllLevelUps();
 
-    @PutMapping
+    @PutMapping(value = "/levelUp")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateLevelUp(@RequestBody @Valid LevelUp levelUp);
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "levelUp/{id}")
     public LevelUp getLevelUpById(@PathVariable int id);
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "levelUp/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLevelUpById(@PathVariable int id);
 }
