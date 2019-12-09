@@ -47,6 +47,12 @@ public class ControllerExceptionHandler {
         VndErrors error = new VndErrors(request.toString(), e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<VndErrors> handleNotFoundException(IllegalArgumentException e, WebRequest request) {
+        VndErrors error = new VndErrors(request.toString(), e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 
 }
 
