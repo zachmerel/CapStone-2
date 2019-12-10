@@ -31,7 +31,7 @@ public class ProductController {
         try {
             return productDao.getOne(id);
         } catch (NullPointerException n) {
-            throw new IllegalArgumentException("illegal argument or another exception idk");
+            throw new IllegalArgumentException("no valid id with number " + id);
         }
     }
 
