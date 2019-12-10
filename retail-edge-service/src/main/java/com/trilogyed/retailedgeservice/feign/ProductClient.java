@@ -13,27 +13,29 @@ import java.util.List;
 @RequestMapping(value = "/product")
 public interface ProductClient {
 
-    @PostMapping
+    @RequestMapping(value = "/product", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(@RequestBody @Valid Product product);
+    public Product createProduct(@RequestBody @Valid Product o);
 
-    @GetMapping
-    public List<Product> getAllProducts();
-
-    @PutMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateProduct(@RequestBody @Valid Product product);
-
-    @GetMapping(value = "/{id}")
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
     public Product getProductById(@PathVariable int id);
-
-    @DeleteMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProductById(@PathVariable int id);
 
     @RequestMapping(value = "/product/inventory", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public String updateProductInventory(@RequestBody Inventory inventory);
+    public String updateProductInventory(@RequestBody @Valid Inventory inventory);
+
+    @RequestMapping(value = "/product", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<Product> getAllProducts();
+
+    @RequestMapping(value = "/product", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public String updateProduct(@RequestBody Product o);
+
+    @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String deleteProductById(@PathVariable int id);
 
 
 }
