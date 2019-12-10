@@ -8,6 +8,16 @@ pipeline {
               bat '''
                  cd customer-service
                  ./mvnw -DskipTests clean compile
+                 cd proudct-service
+                 ./mvnw -DskipTests clean compile
+                 cd invoice-crud-service
+                 ./mvnw -DskipTests clean compile
+                 cd levelup-crud-service
+                 ./mvnw -DskipTests clean compile
+                 cd admin-edge-service
+                 ./mvnw -DskipTests clean compile
+                  cd retail-edge-service
+                 ./mvnw -DskipTests clean compile
               '''
             }
         }
@@ -16,149 +26,40 @@ pipeline {
             steps {
               bat '''
                  cd customer-service
-                     ./mvnw test
-              '''
-            }
-        }
-
-        stage('deliver') {
-            steps {
-              bat '''
-                 cd customer-service
-                     ./mvnw -DskipTests install
-              '''
-            }
-        }
-                stage('build') {
-            steps {
-              bat '''
+                 ./mvnw test
                  cd proudct-service
-                 ./mvnw -DskipTests clean compile
+                 ./mvnw test
+                 cd invoice-crud-service
+                 ./mvnw test
+                 cd levelup-crud-service
+                 ./mvnw test
+                 cd admin-edge-service
+                 ./mvnw test
+                  cd retail-edge-service
+                ./mvnw test
               '''
             }
         }
 
-        stage('test') {
+        stage('deliver') {
             steps {
               bat '''
+                cd customer-service
+                 ./mvnw -DskipTests install
                  cd proudct-service
-                     ./mvnw test
-              '''
-            }
-        }
-
-        stage('deliver') {
-            steps {
-              bat '''
-                 cd proudct-service
-                     ./mvnw -DskipTests install
-              '''
-            }
-        }
-                stage('build') {
-            steps {
-              bat '''
-                 cd admin-edge-service
-                 ./mvnw -DskipTests clean compile
-              '''
-            }
-        }
-
-        stage('test') {
-            steps {
-              bat '''
-                 cd admin-edge-service
-                     ./mvnw test
-              '''
-            }
-        }
-
-        stage('deliver') {
-            steps {
-              bat '''
-                 cd admin-edge-service
-                     ./mvnw -DskipTests install
-              '''
-            }
-        }
-                stage('build') {
-            steps {
-              bat '''
+                 ./mvnw -DskipTests install
                  cd invoice-crud-service
-                 ./mvnw -DskipTests clean compile
-              '''
-            }
-        }
-
-        stage('test') {
-            steps {
-              bat '''
-                 cd invoice-crud-service
-                     ./mvnw test
-              '''
-            }
-        }
-
-        stage('deliver') {
-            steps {
-              bat '''
-                 cd invoice-crud-service
-                     ./mvnw -DskipTests install
-              '''
-            }
-        }
-                stage('build') {
-            steps {
-              bat '''
+                 ./mvnw -DskipTests install
                  cd levelup-crud-service
-                 ./mvnw -DskipTests clean compile
+                 ./mvnw -DskipTests install
+                 cd admin-edge-service
+                 ./mvnw -DskipTests install
+                  cd retail-edge-service
+                ./mvnw -DskipTests install
+ 
               '''
             }
         }
 
-        stage('test') {
-            steps {
-              bat '''
-                 cd levelup-crud-service
-                     ./mvnw test
-              '''
-            }
-        }
-
-        stage('deliver') {
-            steps {
-              bat '''
-                 cd levelup-crud-service
-                     ./mvnw -DskipTests install
-              '''
-            }
-        }
-                stage('build') {
-            steps {
-              bat '''
-                 cd retail-edge-service
-                 ./mvnw -DskipTests clean compile
-              '''
-            }
-        }
-
-        stage('test') {
-            steps {
-              bat '''
-                 cd retail-edge-service
-                     ./mvnw test
-              '''
-            }
-        }
-
-        stage('deliver') {
-            steps {
-              bat '''
-                 cd retail-edge-service
-                     ./mvnw -DskipTests install
-              '''
-            }
-        }
-
-    }
+}
 }
