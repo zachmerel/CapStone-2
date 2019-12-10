@@ -1,0 +1,1 @@
+INSERT INTO product (product_id, inventory, list_price, product_description, product_name, unit_price) VALUES ('1', '100', '100.00', 'cheesebuger', 'McDouble', '1');
