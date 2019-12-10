@@ -32,7 +32,7 @@ public class RetailEdgeServiceApplication {
 	}
 	@RequestMapping("/points")
 	public List<LevelUp> getAllLevelUps(){
-		return levelUpService.getAllLevelUps();
+		return levelUpService.getLevelUp();
 	}
 	@Bean
 		public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {

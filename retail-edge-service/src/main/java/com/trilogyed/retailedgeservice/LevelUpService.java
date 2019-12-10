@@ -17,8 +17,8 @@ public class LevelUpService {
     }
 
     @HystrixCommand(fallbackMethod = "reliable")
-    public List<LevelUp> getAllLevelUps() {
-        URI uri = URI.create("http://localhost:7001/levelUp");
+    public List<LevelUp> getLevelUp() {
+        URI uri = URI.create("http://localhost:7001/levelUp/customer/{id}");
         return this.restTemplate.getForObject(uri, List.class);
     }
 
