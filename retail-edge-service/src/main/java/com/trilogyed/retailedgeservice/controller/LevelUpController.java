@@ -48,9 +48,7 @@ public class LevelUpController {
     @RequestMapping(value = "/levelUp", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public String createLevelUp(@RequestBody @Valid LevelUp levelUp) {
-        System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, levelUp);
-        System.out.println("Message Sent");
+        retailServiceLayer.createLevelUp(levelUp);
         return "levelUp created: " + levelUp;
     }
 
@@ -69,7 +67,7 @@ public class LevelUpController {
 
     //    @Cacheable
     @RequestMapping(value = "/levelup/customer/{id}", method = RequestMethod.GET)
-    public Optional<Integer> getLevelUpPointsByCustomerId(int id) {
+    public Integer getLevelUpPointsByCustomerId(int id) {
         return retailServiceLayer.getLevelUpPointsByCustomerId(id);
     }
 }

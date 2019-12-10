@@ -21,7 +21,7 @@ public class InvoiceController {
 
     @CachePut(key = "#result.getInvoiceId()")
     @RequestMapping(value = "/invoices", method = RequestMethod.POST)
-    public Invoice submitInvoice(@RequestBody Invoice invoice) {
+    public Invoice createInvoice(@RequestBody Invoice invoice) {
         return retailServiceLayer.createInvoice(invoice);
     }
 
