@@ -16,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +52,7 @@ public class CustomerControllerTest {
         when(customerDao.save(Customer_NO_ID)).thenReturn(Customer_ID);
         when(customerDao.getOne(1)).thenReturn(Customer_ID);
         when(customerDao.findAll()).thenReturn(Customer_LIST);
+        when(customerDao.findCustomersByEmail("danmuller@gmail.com")).thenReturn(Customer_LIST);
         //success and failure messages sent from service layer if applicable
 //        when(customerDao.save(Customer_UPDATED)).thenReturn("Update: "+ SUCCESS);
 //        when(customerDao.deleteById(1)).thenReturn("Delete: " + SUCCESS);
@@ -80,6 +80,15 @@ public class CustomerControllerTest {
     public void getCustomer() throws Exception {
         String output_json = mapper.writeValueAsString(Customer_ID);
         mvc.perform(get("/customer/{id}", 1))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(output_json));
+    }
+
+    @Test
+    public void getCustomerByEmail() throws Exception{
+        String output_json = mapper.writeValueAsString(Customer_LIST);
+        mvc.perform(get("/customer/email/{email}","danmuller@gmail.com"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(output_json));

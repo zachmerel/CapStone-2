@@ -1,0 +1,1 @@
+insert into customer (customer_id, city, email, first_name, last_name, phone, street, zip)  VALUES ('1', 'Chicago', 'zach@gmailc.om', 'zach', 'merel', '8008001800', 'fake', '60606');

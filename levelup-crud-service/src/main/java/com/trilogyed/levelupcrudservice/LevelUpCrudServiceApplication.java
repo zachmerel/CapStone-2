@@ -8,11 +8,11 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.context.annotation.Bean;
-
-
 @SpringBootApplication
 @EnableDiscoveryClient
+//@EnableSwagger2
 public class LevelUpCrudServiceApplication {
 	public static final String TOPIC_EXCHANGE_NAME="points-exchange";
 		public static final String QUEUE_NAME = "points-queue";

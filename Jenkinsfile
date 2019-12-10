@@ -6,6 +6,10 @@ pipeline {
         stage('build') {
             steps {
               bat '''
+                 cd config-server
+                 ./mvnw -DskipTests clean compile
+                 cd eureka-service-registry
+                 ./mvnw -DskipTests clean compile
                  cd customer-service
                  ./mvnw -DskipTests clean compile
                  cd proudct-service
@@ -25,6 +29,10 @@ pipeline {
         stage('test') {
             steps {
               bat '''
+                  cd config-server
+                 ./mvnw test
+                 cd eureka-service-registry
+                 ./mvnw test
                  cd customer-service
                  ./mvnw test
                  cd proudct-service
@@ -44,6 +52,10 @@ pipeline {
         stage('deliver') {
             steps {
               bat '''
+                 cd config-server
+                 ./mvnw -DskipTests install
+                 cd eureka-service-registry
+                 ./mvnw -DskipTests install
                 cd customer-service
                  ./mvnw -DskipTests install
                  cd proudct-service
