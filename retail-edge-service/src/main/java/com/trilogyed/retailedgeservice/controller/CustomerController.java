@@ -2,6 +2,7 @@ package com.trilogyed.retailedgeservice.controller;
 
 import com.trilogyed.retailedgeservice.dto.Customer;
 import com.trilogyed.retailedgeservice.service.RetailServiceLayer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -16,6 +17,7 @@ import java.util.List;
 @CacheConfig(cacheNames = {"customers"})
 @RefreshScope
 public class CustomerController {
+    @Autowired
     private RetailServiceLayer retailServiceLayer;
 
     @CachePut(key = "#result.getCustomerId()")

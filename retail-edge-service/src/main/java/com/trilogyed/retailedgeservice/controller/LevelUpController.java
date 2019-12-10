@@ -20,6 +20,7 @@ import java.util.Optional;
 @RefreshScope
 //@CacheConfig(cacheNames = {"levelUps"})
 public class LevelUpController {
+    @Autowired
     private RetailServiceLayer retailServiceLayer;
     public static final String EXCHANGE = "points-exchange";
     public static final String ROUTING_KEY = "levelup․#";
