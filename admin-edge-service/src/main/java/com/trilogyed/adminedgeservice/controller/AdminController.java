@@ -46,7 +46,6 @@ public class AdminController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable int id) {
         adminServiceLayer.deleteCustomerById(id);
-
     }
 
     //PRODUCT URIs
@@ -83,7 +82,7 @@ public class AdminController {
     @RequestMapping(value = "/product/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable int id) {
-        adminServiceLayer.deleteCustomerById(id);
+        adminServiceLayer.deleteProductById(id);
     }
 
     //INVOICE URIs
