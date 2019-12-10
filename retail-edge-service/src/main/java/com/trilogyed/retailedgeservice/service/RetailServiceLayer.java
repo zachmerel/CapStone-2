@@ -40,17 +40,51 @@ public class RetailServiceLayer {
         this.productClient = productClient;
     }
 
-    public InvoiceViewModel submitInvoice(Invoice invoice) {
-        if (invoice.getInvoiceId() == 0) {
-            invoice = createInvoice(invoice);
+//    public InvoiceViewModel submitInvoice(Invoice invoice) {
+//        if (invoice.getInvoiceId() == 0) {
+//            invoice = createInvoice(invoice);
+//        }
+//        //now it has an id
+//        InvoiceViewModel ivm = buildInvoiceViewModel(invoice);
+//        int totalPrice = 0;
+//        for (InvoiceItem invoiceItem : ivm.getInvoiceItems()) {
+//            totalPrice += invoiceItem.getUnitPrice() * invoiceItem.getQuantity();
+//        }
+//        LevelUp levelUp = findLevelUpByCustomerId(ivm.getCustomer().getCustomerId()).get(1);
+//        levelUp.setPoints(levelUp.getPoints() + 10 * (totalPrice / 50));
+//        updateLevelUp(levelUp);
+//        return ivm;
+//    }
+
+    public InvoiceViewModel order(String email, Map<Integer, Integer> itemQuantityMap) {
+        Invoice invoice = new Invoice();
+        int customerId = getCustomerByEmail(email).get(1).getCustomerId();
+        invoice.setCustomerId(customerId);
+        invoice.setPurchaseDate(LocalDate.now());
+        invoice = createInvoice(invoice);
+        List<InvoiceItem> invoiceItems = new ArrayList<>();
+        for (Integer productId : itemQuantityMap.keySet()) {
+            InvoiceItem invoiceItem = new InvoiceItem();
+            invoiceItem.setInvoiceId(invoice.getInvoiceId());
+            Product product = getProductById(productId);
+            invoiceItem.setProductId(productId);
+            int quantity = itemQuantityMap.get(productId);
+            if (quantity > 0 && quantity <= product.getinventory()) {
+                invoiceItem.setQuantity(quantity);
+            } else {
+                throw new IllegalArgumentException("You have entered and invalid order quantity. Please enter a positive integer less than or equal to " + product.getinventory());
+            }
+            invoiceItem.setUnitPrice(product.getlist_price());
+            invoiceItems.add(createInvoiceItem(invoiceItem));
         }
-        //now it has an id
         InvoiceViewModel ivm = buildInvoiceViewModel(invoice);
         int totalPrice = 0;
         for (InvoiceItem invoiceItem : ivm.getInvoiceItems()) {
             totalPrice += invoiceItem.getUnitPrice() * invoiceItem.getQuantity();
         }
-        LevelUp levelUp = findLevelUpByCustomerId(ivm.getCustomer().getCustomerId()).get(1);
+        LevelUp levelUp;
+        do{levelUp= findLevelUpByCustomerId(ivm.getCustomer().getCustomerId());}
+        while(levelUp==null);
         levelUp.setPoints(levelUp.getPoints() + 10 * (totalPrice / 50));
         updateLevelUp(levelUp);
         return ivm;
@@ -95,31 +129,39 @@ public class RetailServiceLayer {
         return invoiceItemClient.findInvoiceItemsByInvoiceId(id);
     }
 
-    public Optional<Integer> getLevelUpPointsByCustomerId(int id) {
-        List<LevelUp> levelUps = findLevelUpByCustomerId(id);
-        int size = levelUps.size();
-        if (size == 0) {
-            return Optional.empty();
-        } else if (size > 1
-        ) {
-            throw new MultipleCustomersException("There were multiple LevelUp accounts associated with customerId " + id);
-        } else
-            return Optional.of(levelUps.get(0).getPoints());
+    public Integer getLevelUpPointsByCustomerId(int id) {
+        LevelUp levelUp = findLevelUpByCustomerId(id);
+        if (levelUp==null){
+            levelUp=new LevelUp();
+            levelUp.setMemberDate(LocalDate.now());
+            levelUp.setCustomerId(id);
+            createLevelUp(levelUp);
+            return 0;
+        }
+        return levelUp.getPoints();
     }
 
-    public Optional<LocalDate> getMemberDateByCustomerId(int id) {
-        List<LevelUp> levelUps = findLevelUpByCustomerId(id);
-        int size = levelUps.size();
-        if (size == 0) {
-            return Optional.empty();
-        } else if (size > 1) {
-            throw new MultipleCustomersException("There were multiple LevelUp accounts associated with customerId " + id);
-        } else
-            return Optional.of(levelUps.get(0).getMemberDate());
+    public LocalDate getMemberDateByCustomerId(int id) {
+        LevelUp levelUp = findLevelUpByCustomerId(id);
+        if (levelUp==null){
+            levelUp=new LevelUp();
+            levelUp.setMemberDate(LocalDate.now());
+            levelUp.setCustomerId(id);
+            createLevelUp(levelUp);
+            return LocalDate.now();
+        }
+        return levelUp.getMemberDate();
     }
 
-    public List<LevelUp> findLevelUpByCustomerId(int id) {
-        return levelUpClient.findLevelUpByCustomerId(id);
+    public LevelUp findLevelUpByCustomerId(int id) {
+        List<LevelUp> levelUps= levelUpClient.findLevelUpByCustomerId(id);
+        if(levelUps.size()==1){
+            return levelUps.get(0);
+        } else if (levelUps.size() > 1) {
+            throw new MultipleCustomersException("There were multiple LevelUp accounts associated with customerId " + id);
+        }else{
+            return null;
+        }
     }
 
     InvoiceViewModel buildInvoiceViewModel(Invoice invoice) {
@@ -150,36 +192,10 @@ public class RetailServiceLayer {
         cvm.setLastName(customer.getlastName());
         cvm.setStreet(customer.getstreet());
         cvm.setZip(customer.getzip());
-        Optional<Integer> points = getLevelUpPointsByCustomerId(id);
-        points.ifPresent(cvm::setPoints);
-        Optional<LocalDate> memberDate = getMemberDateByCustomerId(id);
-        memberDate.ifPresent(cvm::setMemberDate);
+        cvm.setPoints(getLevelUpPointsByCustomerId(id));
+        cvm.setMemberDate(getMemberDateByCustomerId(id));
         return cvm;
 
-    }
-
-    public InvoiceViewModel order(String email, Map<Integer, Integer> itemQuantityMap) {
-        Invoice invoice = new Invoice();
-        int customerId = getCustomerByEmail(email).get(1).getCustomerId();
-        invoice.setCustomerId(customerId);
-        invoice.setPurchaseDate(LocalDate.now());
-        invoice = createInvoice(invoice);
-        List<InvoiceItem> invoiceItems = new ArrayList<>();
-        for (Integer productId : itemQuantityMap.keySet()) {
-            InvoiceItem invoiceItem = new InvoiceItem();
-            invoiceItem.setInvoiceId(invoice.getInvoiceId());
-            Product product = getProductById(productId);
-            invoiceItem.setProductId(productId);
-            int quantity = itemQuantityMap.get(productId);
-            if (quantity > 0 && quantity <= product.getinventory()) {
-                invoiceItem.setQuantity(quantity);
-            } else {
-                throw new IllegalArgumentException("You have entered and invalid order quantity. Please enter a positive integer less than or equal to " + product.getinventory());
-            }
-            invoiceItem.setUnitPrice(product.getlist_price());
-            invoiceItems.add(createInvoiceItem(invoiceItem));
-        }
-        return buildInvoiceViewModel(invoice);
     }
 
     public InvoiceItem createInvoiceItem(InvoiceItem invoiceItem) {
@@ -276,5 +292,11 @@ public class RetailServiceLayer {
 
     public List<InvoiceItem> getAllInvoiceItems() {
         return invoiceItemClient.getAllInvoiceItems();
+    }
+
+    public void createLevelUp(LevelUp levelUp) {
+        System.out.println("Sending message...");
+        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, levelUp);
+        System.out.println("Message Sent");
     }
 }
