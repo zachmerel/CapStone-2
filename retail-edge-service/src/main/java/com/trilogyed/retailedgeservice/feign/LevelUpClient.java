@@ -13,9 +13,9 @@ import java.util.List;
 //@RequestMapping(value = "/levelUp")
 public interface LevelUpClient {
 
-//    @PostMapping(value = "/levelUp")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public LevelUp createLevelUp(@RequestBody @Valid LevelUp levelUp);
+    @PostMapping(value = "/levelUp")
+    @ResponseStatus(HttpStatus.CREATED)
+    public LevelUp createLevelUp(@RequestBody @Valid LevelUp levelUp);
 
     @GetMapping(value = "/levelUp")
     public List<LevelUp> getAllLevelUps();
