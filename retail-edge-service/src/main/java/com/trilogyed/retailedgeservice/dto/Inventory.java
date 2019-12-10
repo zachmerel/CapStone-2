@@ -5,11 +5,14 @@ import java.util.Objects;
 public class Inventory {
     private Integer productId;
     private int inventory;
+
     public Inventory() {
     }
+
     public Inventory(int inventory) {
         this.inventory = inventory;
     }
+
     public Inventory(Integer productId, int inventory) {
         this.productId = productId;
         this.inventory = inventory;

@@ -10,9 +10,9 @@ public class Product {
     private String product_name;
     @NotEmpty
     private String product_description;
-    @Min(value = (long).01, message = "list price must be at least one cent")
+    @Min(value = (long) .01, message = "list price must be at least one cent")
     private double list_price;
-    @Min(value = (long).01, message = "unit price must be at least one cent")
+    @Min(value = (long) .01, message = "unit price must be at least one cent")
     private double unit_price;
     @Min(value = 1, message = "inventory should be specified as a positive int.")
     private int inventory;
