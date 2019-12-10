@@ -230,10 +230,6 @@ public class RetailServiceLayer {
 
     //LEVEL UPS
 
-    public LevelUp createLevelUp(LevelUp levelUp){
-        return levelUpClient.createLevelUp(levelUp);
-    }
-
     public LevelUp getLevelUpById(int id){
         return levelUpClient.getLevelUpById(id);
     }
