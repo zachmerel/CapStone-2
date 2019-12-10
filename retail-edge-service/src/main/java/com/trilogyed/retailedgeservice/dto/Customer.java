@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Objects;
 
 
-public class Customer {
+public class Customer implements Serializable {
 
     private Integer customerId;
     @NotEmpty(message = "must provide first name of customer")

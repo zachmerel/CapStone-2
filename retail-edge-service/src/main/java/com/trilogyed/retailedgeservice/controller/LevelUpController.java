@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RefreshScope
 //@CacheConfig(cacheNames = {"levelUps"})
 public class LevelUpController {
     private RetailServiceLayer retailServiceLayer;
@@ -62,9 +64,7 @@ public class LevelUpController {
     @RequestMapping(value = "/levelUp", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void updateLevelUp(@RequestBody @Valid LevelUp levelUp) {
-        System.out.println("Sending message...");
-        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, levelUp);
-        System.out.println("Message Sent");
+        retailServiceLayer.updateLevelUp(levelUp);
     }
 
     //    @Cacheable

@@ -5,6 +5,7 @@ import com.trilogyed.retailedgeservice.exceptions.MultipleCustomersException;
 import com.trilogyed.retailedgeservice.feign.*;
 import com.trilogyed.retailedgeservice.view.CustomerViewModel;
 import com.trilogyed.retailedgeservice.view.InvoiceViewModel;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,14 @@ public class RetailServiceLayer {
     private PurchaseClient invoiceItemClient;
     private LevelUpClient levelUpClient;
     private ProductClient productClient;
+    public static final String EXCHANGE = "points-exchange";
+    public static final String ROUTING_KEY = "levelup․#";
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    public RetailServiceLayer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
     @Autowired
     public RetailServiceLayer(CustomerClient customerClient, PurchaseClient invoiceClient, PurchaseClient invoiceItemClient, LevelUpClient levelUpClient, ProductClient productClient) {
@@ -43,7 +52,7 @@ public class RetailServiceLayer {
         }
         LevelUp levelUp = findLevelUpByCustomerId(ivm.getCustomer().getCustomerId()).get(1);
         levelUp.setPoints(levelUp.getPoints() + 10 * (totalPrice / 50));
-        levelUpClient.updateLevelUp(levelUp);
+        updateLevelUp(levelUp);
         return ivm;
     }
 
@@ -248,7 +257,9 @@ public class RetailServiceLayer {
     }
 
     public void updateLevelUp(LevelUp levelUp) {
-        levelUpClient.updateLevelUp(levelUp);
+        System.out.println("Sending message...");
+        rabbitTemplate.convertAndSend(EXCHANGE, ROUTING_KEY, levelUp);
+        System.out.println("Message Sent");
     }
 
     public InvoiceItem getInvoiceItemById(int id) {

@@ -3,11 +3,12 @@ package com.trilogyed.retailedgeservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.util.Objects;
 
 
 //@Proxy(lazy = false)
-public class InvoiceItem {
+public class InvoiceItem implements Serializable {
 
     private Integer invoiceItemId;
     @Min(value = 1, message = "invoiceId should be specified as a positive int.")

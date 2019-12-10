@@ -8,10 +8,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class LevelUp {
+public class LevelUp implements Serializable {
     private Integer levelUpId;
     @Min(value = 1, message = "customerId should be specified as a positive int.")
     private int customerId;
