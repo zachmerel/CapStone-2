@@ -2,6 +2,7 @@ package com.trilogyed.retailedgeservice.controller;
 
 import com.trilogyed.retailedgeservice.dto.Invoice;
 import com.trilogyed.retailedgeservice.service.RetailServiceLayer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -17,26 +18,27 @@ import java.util.List;
 @CacheConfig(cacheNames = {"invoices"})
 @RefreshScope
 public class InvoiceController {
+    @Autowired
     private RetailServiceLayer retailServiceLayer;
 
     @CachePut(key = "#result.getInvoiceId()")
-    @RequestMapping(value = "/invoices", method = RequestMethod.POST)
+    @RequestMapping(value = "/invoice", method = RequestMethod.POST)
     public Invoice createInvoice(@RequestBody Invoice invoice) {
         return retailServiceLayer.createInvoice(invoice);
     }
 
     @Cacheable
-    @RequestMapping(value = "/invoices/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/invoice/{id}", method = RequestMethod.GET)
     public Invoice getInvoiceById(@PathVariable int id) {
         return retailServiceLayer.getInvoiceById(id);
     }
 
-    @RequestMapping(value = "/invoices", method = RequestMethod.GET)
+    @RequestMapping(value = "/invoice", method = RequestMethod.GET)
     public List<Invoice> getAllInvoices() {
         return retailServiceLayer.getAllInvoices();
     }
 
-    @RequestMapping(value = "/invoices/customer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/invoice/customer/{id}", method = RequestMethod.GET)
     public List<Invoice> getInvoicesByCustomerId(@PathVariable int id) {
         return retailServiceLayer.getInvoicesByCustomerId(id);
     }

@@ -3,6 +3,7 @@ package com.trilogyed.retailedgeservice.controller;
 import com.trilogyed.retailedgeservice.dto.Inventory;
 import com.trilogyed.retailedgeservice.dto.Product;
 import com.trilogyed.retailedgeservice.service.RetailServiceLayer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -17,6 +18,7 @@ import java.util.List;
 @RefreshScope
 @CacheConfig(cacheNames = {"products"})
 public class ProductController {
+    @Autowired
     private RetailServiceLayer retailServiceLayer;
 
     @RequestMapping(value = "/products/inventory", method = RequestMethod.GET)
