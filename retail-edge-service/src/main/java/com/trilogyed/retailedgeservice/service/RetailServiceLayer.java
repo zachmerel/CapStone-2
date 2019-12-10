@@ -58,7 +58,7 @@ public class RetailServiceLayer {
 
     public InvoiceViewModel order(String email, Map<Integer, Integer> itemQuantityMap) {
         Invoice invoice = new Invoice();
-        int customerId = getCustomerByEmail(email).get(1).getCustomerId();
+        int customerId = getCustomerByEmail(email).get(0).getCustomerId();
         invoice.setCustomerId(customerId);
         invoice.setPurchaseDate(LocalDate.now());
         invoice = createInvoice(invoice);

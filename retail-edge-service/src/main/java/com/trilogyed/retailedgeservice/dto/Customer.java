@@ -40,7 +40,7 @@ public class Customer implements Serializable {
         this.phone = phone;
     }
 
-    public Customer(Integer CustomerId, String firstName, String lastName, String street, String city, String zip, String email, String phone) {
+    public Customer(Integer customerId, String firstName, String lastName, String street, String city, String zip, String email, String phone) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.lastName = lastName;
