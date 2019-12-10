@@ -10,12 +10,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 
 import javax.validation.constraints.Min;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
 
 //@Proxy(lazy = false)
-public class Invoice {
+public class Invoice implements Serializable {
 
     private Integer invoiceId;
     @Min(value = 1, message = "customerId should be specified as a positive int.")

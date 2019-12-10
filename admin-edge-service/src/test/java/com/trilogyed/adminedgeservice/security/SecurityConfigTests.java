@@ -24,7 +24,6 @@ public class SecurityConfigTests {
     private TestRestTemplate testRestTemplate;
 
 
-    //"GET ALL" END POINTS
     @Test
     public void givenAdminUserNameAndPassWordToGetAllCustomers_shouldSucceedWith200() throws Exception {
         ResponseEntity<String> response = testRestTemplate.withBasicAuth(
@@ -128,6 +127,7 @@ public class SecurityConfigTests {
         ResponseEntity<String> response = testRestTemplate.withBasicAuth(
                 "admin", "notThePassword").getForEntity("/customer",
                 String.class,1);
+
 
         assertThat(response.getStatusCode(), equalTo(HttpStatus.UNAUTHORIZED));
     }

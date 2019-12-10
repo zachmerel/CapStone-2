@@ -10,27 +10,27 @@ import javax.validation.Valid;
 import java.util.List;
 
 @FeignClient(name = "levelup-crud-service")
-@RequestMapping(value = "/levelUp")
+//@RequestMapping(value = "/levelUp")
 public interface LevelUpClient {
 
-    @PostMapping
+    @PostMapping(value = "/levelUp")
     @ResponseStatus(HttpStatus.CREATED)
     public LevelUp createLevelUp(@RequestBody @Valid LevelUp levelUp);
 
-    @GetMapping
+    @GetMapping(value = "/levelUp")
     public List<LevelUp> getAllLevelUps();
 
-    @PutMapping
+    @PutMapping(value = "/levelUp")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateLevelUp(@RequestBody @Valid LevelUp levelUp);
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/levelUp/{id}")
     public LevelUp getLevelUpById(@PathVariable int id);
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/levelUp/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLevelUpById(@PathVariable int id);
 
-    @GetMapping(value = "/customer/{id}")
+    @GetMapping(value = "/levelUp/customer/{id}")
     public List<LevelUp> findLevelUpByCustomerId(@PathVariable int id);
 }

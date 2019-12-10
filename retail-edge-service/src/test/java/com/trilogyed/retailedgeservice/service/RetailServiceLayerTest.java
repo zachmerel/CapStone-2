@@ -2,13 +2,13 @@ package com.trilogyed.retailedgeservice.service;
 
 import com.trilogyed.retailedgeservice.dto.*;
 import com.trilogyed.retailedgeservice.feign.*;
+import com.trilogyed.retailedgeservice.view.CustomerViewModel;
+import com.trilogyed.retailedgeservice.view.InvoiceViewModel;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -44,7 +44,26 @@ public class RetailServiceLayerTest {
         assertEquals(invoiceWithId, service.createInvoice(invoice));
     }
     @Test
-    public void shouldSubmitInvoice(){}
+    public void shouldSubmitOrder(){
+        Invoice invoiceWithId = new Invoice();
+        invoiceWithId.setInvoiceId(1);
+        invoiceWithId.setCustomerId(1);
+        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        Map<Integer, Integer> mapToSubmit = new HashMap<>();
+        InvoiceItem invoiceItemWithId = new InvoiceItem();
+        invoiceItemWithId.setInvoiceId(1);
+        invoiceItemWithId.setProductId(1);
+        invoiceItemWithId.setQuantity(1);
+        invoiceItemWithId.setUnitPrice(1);
+        invoiceItemWithId.setInvoiceItemId(1);
+        InvoiceViewModel ivm=new InvoiceViewModel();
+        CustomerViewModel cvm=new CustomerViewModel();
+        Customer customer = new Customer(1,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
+        cvm = service.buildCustomerViewModel(customer);
+
+
+        assertEquals(ivm,service.order("email",mapToSubmit));
+    }
 
     @Test
     public void shouldGetInvoiceById() {
@@ -209,8 +228,8 @@ public class RetailServiceLayerTest {
         final Customer customerWithId = new Customer(1, "Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
         List<Customer> customerList = new ArrayList<>();
         customerList.add(customerWithId);
-        doReturn(customerWithId).when(customerClient).getCustomerById(1);
+        doReturn(customerWithId).when(customerClient).getCustomer(1);
         doReturn(customerList).when(customerClient).getAllCustomers();
-        doReturn(customerWithId).when(customerClient).createCustomer(customer);
+        doReturn(customerWithId).when(customerClient).saveCustomer(customer);
     }
 }

@@ -1,15 +1,19 @@
 package com.trilogyed.retailedgeservice.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Inventory {
+public class Inventory implements Serializable {
     private Integer productId;
     private int inventory;
+
     public Inventory() {
     }
+
     public Inventory(int inventory) {
         this.inventory = inventory;
     }
+
     public Inventory(Integer productId, int inventory) {
         this.productId = productId;
         this.inventory = inventory;

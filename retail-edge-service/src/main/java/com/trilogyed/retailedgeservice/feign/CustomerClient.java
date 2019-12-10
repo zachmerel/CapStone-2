@@ -13,23 +13,26 @@ import java.util.Map;
 @RequestMapping(value = "/customer")
 public interface CustomerClient {
 
-    @PostMapping
+    @RequestMapping(value = "/customer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer createCustomer(@RequestBody @Valid Customer customer);
+    public Customer saveCustomer(@RequestBody @Valid Customer o);
 
-    @GetMapping
+    @RequestMapping(value = "/customer/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Customer getCustomer(@PathVariable int id);
+
+    @RequestMapping(value = "/customer", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
     public List<Customer> getAllCustomers();
 
-    @PutMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateCustomer(@RequestBody @Valid Customer customer);
+    @RequestMapping(value = "/customer", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public String updateCustomer(@RequestBody @Valid  Customer o);
 
-    @GetMapping(value = "/{id}")
-    public Customer getCustomerById(@PathVariable int id);
-
-    @DeleteMapping(value = "/{id}")
+    @RequestMapping(value = "/customer/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCustomerById(@PathVariable int id);
+    public String deleteCustomer(@PathVariable int id);
+
     @GetMapping("/email/{email}")
     List<Customer> findCustomersByEmail(@PathVariable String email);
 }

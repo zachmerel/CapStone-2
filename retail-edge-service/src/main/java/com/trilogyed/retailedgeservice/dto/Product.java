@@ -1,13 +1,21 @@
 package com.trilogyed.retailedgeservice.dto;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Product {
+public class Product implements Serializable {
     private Integer productId;
+    @NotEmpty
     private String product_name;
+    @NotEmpty
     private String product_description;
+    @Min(value = (long) .01, message = "list price must be at least one cent")
     private double list_price;
+    @Min(value = (long) .01, message = "unit price must be at least one cent")
     private double unit_price;
+    @Min(value = 1, message = "inventory should be specified as a positive int.")
     private int inventory;
 
 

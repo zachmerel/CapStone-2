@@ -48,7 +48,6 @@ public class AdminController {
         adminServiceLayer.deleteCustomerById(id);
     }
 
-
     //PRODUCT URIs
     @RequestMapping(value = "/product", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
@@ -64,7 +63,7 @@ public class AdminController {
 
     @RequestMapping(value = "/product/inventory", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateProductInventory(@RequestBody Inventory inventory) throws Exception {
+    public void updateProductInventory(@RequestBody @Valid Inventory inventory) throws Exception {
         adminServiceLayer.updateProductInventory(inventory);
     }
 
