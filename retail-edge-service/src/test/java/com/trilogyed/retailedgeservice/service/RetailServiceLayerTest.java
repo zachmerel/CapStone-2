@@ -36,11 +36,11 @@ public class RetailServiceLayerTest {
     public void shouldCreateInvoice() {
         Invoice invoice = new Invoice();
         invoice.setCustomerId(1);
-        invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoice.setPurchaseDate(LocalDate.now());
         Invoice invoiceWithId = new Invoice();
         invoiceWithId.setInvoiceId(1);
         invoiceWithId.setCustomerId(1);
-        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoiceWithId.setPurchaseDate(LocalDate.now());
         assertEquals(invoiceWithId, service.createInvoice(invoice));
     }
     @Test
@@ -48,7 +48,7 @@ public class RetailServiceLayerTest {
         Invoice invoiceWithId = new Invoice();
         invoiceWithId.setInvoiceId(1);
         invoiceWithId.setCustomerId(1);
-        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoiceWithId.setPurchaseDate(LocalDate.now());
         Map<Integer, Integer> mapToSubmit = new HashMap<>();
         InvoiceItem invoiceItemWithId = new InvoiceItem();
         invoiceItemWithId.setInvoiceId(1);
@@ -56,24 +56,29 @@ public class RetailServiceLayerTest {
         invoiceItemWithId.setQuantity(1);
         invoiceItemWithId.setUnitPrice(1);
         invoiceItemWithId.setInvoiceItemId(1);
-        InvoiceViewModel ivm=new InvoiceViewModel();
         CustomerViewModel cvm=new CustomerViewModel();
         Customer customer = new Customer(1,"Dan", "Mueller", "Fake Street", "Chicago", "60606", "danmuller@gmail.com", "7732025000");
         cvm = service.buildCustomerViewModel(customer);
+        InvoiceViewModel ivm=new InvoiceViewModel();
+        List<InvoiceItem> invoiceItemList = new ArrayList<>();
+        invoiceItemList.add(invoiceItemWithId);
+        ivm.setInvoiceItems(invoiceItemList);
+        ivm.setId(1);
+        ivm.setCustomer(cvm);
+        ivm.setPurchaseDate(invoiceWithId.getPurchaseDate());
 
-
-        assertEquals(ivm,service.order("email",mapToSubmit));
+        assertEquals(ivm,service.order("danmuller@gmail.com",mapToSubmit));
     }
 
     @Test
     public void shouldGetInvoiceById() {
         Invoice invoice = new Invoice();
         invoice.setCustomerId(1);
-        invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoice.setPurchaseDate(LocalDate.now());
         Invoice invoiceWithId = new Invoice();
         invoiceWithId.setInvoiceId(1);
         invoiceWithId.setCustomerId(1);
-        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoiceWithId.setPurchaseDate(LocalDate.now());
         assertEquals(invoiceWithId, service.getInvoiceById(1));
     }
 
@@ -81,11 +86,11 @@ public class RetailServiceLayerTest {
     public void shouldGetAllInvoices_optionallyByCustomerId() {
         Invoice invoice = new Invoice();
         invoice.setCustomerId(1);
-        invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoice.setPurchaseDate(LocalDate.now());
         Invoice invoiceWithId = new Invoice();
         invoiceWithId.setInvoiceId(1);
         invoiceWithId.setCustomerId(1);
-        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoiceWithId.setPurchaseDate(LocalDate.now());
         List<Invoice> invoiceList = new ArrayList<>();
         invoiceList.add(invoiceWithId);
         assertEquals(invoiceList, service.getAllInvoices());
@@ -130,15 +135,15 @@ public class RetailServiceLayerTest {
         LevelUp levelUp = new LevelUp();
         levelUp.setCustomerId(1);
         levelUp.setPoints(1);
-        levelUp.setMemberDate(LocalDate.parse("2019-12-05"));
+        levelUp.setMemberDate(LocalDate.now());
         LevelUp levelUpWithId = new LevelUp();
         levelUpWithId.setCustomerId(1);
         levelUpWithId.setPoints(1);
-        levelUpWithId.setMemberDate(LocalDate.parse("2019-12-05"));
+        levelUpWithId.setMemberDate(LocalDate.now());
         levelUpWithId.setLevelUpId(1);
         List<LevelUp> levelUpList = new ArrayList<>();
         levelUpList.add(levelUpWithId);
-        assertEquals(Optional.of(levelUpList.get(0).getPoints()),service.getLevelUpPointsByCustomerId(1));
+        assertEquals(1,(long) service.getLevelUpPointsByCustomerId(1));
     }
 
 
@@ -170,11 +175,11 @@ public class RetailServiceLayerTest {
         LevelUp levelUp = new LevelUp();
         levelUp.setCustomerId(1);
         levelUp.setPoints(1);
-        levelUp.setMemberDate(LocalDate.parse("2019-12-05"));
+        levelUp.setMemberDate(LocalDate.now());
         LevelUp levelUpWithId = new LevelUp();
         levelUpWithId.setCustomerId(1);
         levelUpWithId.setPoints(1);
-        levelUpWithId.setMemberDate(LocalDate.parse("2019-12-05"));
+        levelUpWithId.setMemberDate(LocalDate.now());
         levelUpWithId.setLevelUpId(1);
         List<LevelUp> levelUpList = new ArrayList<>();
         levelUpList.add(levelUpWithId);
@@ -209,11 +214,11 @@ public class RetailServiceLayerTest {
         invoiceClient = mock(PurchaseClient.class);
         Invoice invoice = new Invoice();
         invoice.setCustomerId(1);
-        invoice.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoice.setPurchaseDate(LocalDate.now());
         Invoice invoiceWithId = new Invoice();
         invoiceWithId.setInvoiceId(1);
         invoiceWithId.setCustomerId(1);
-        invoiceWithId.setPurchaseDate(LocalDate.parse("2019-12-05"));
+        invoiceWithId.setPurchaseDate(LocalDate.now());
         List<Invoice> invoiceList = new ArrayList<>();
         invoiceList.add(invoiceWithId);
         doReturn(invoiceWithId).when(invoiceClient).getInvoiceById(1);
@@ -231,5 +236,6 @@ public class RetailServiceLayerTest {
         doReturn(customerWithId).when(customerClient).getCustomer(1);
         doReturn(customerList).when(customerClient).getAllCustomers();
         doReturn(customerWithId).when(customerClient).saveCustomer(customer);
+        doReturn(customerList).when(customerClient).findCustomersByEmail("danmuller@gmail.com");
     }
 }
