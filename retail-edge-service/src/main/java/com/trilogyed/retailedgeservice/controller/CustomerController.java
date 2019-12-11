@@ -11,6 +11,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class CustomerController {
     @CachePut(key = "#result.getCustomerId()")
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer saveCustomer(@RequestBody Customer o) {
+    public Customer saveCustomer(@RequestBody @Valid Customer o) {
         return retailServiceLayer.createCustomer(o);
     }
 
@@ -43,7 +44,7 @@ public class CustomerController {
     @CacheEvict
     @RequestMapping(value = "/customer", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateCustomer(@RequestBody Customer o) {
+    public void updateCustomer(@RequestBody @Valid Customer o) {
         retailServiceLayer.updateCustomer(o);
     }
 

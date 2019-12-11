@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "customer-service")
-@RequestMapping(value = "/customer")
+//@RequestMapping(value = "/customer")
 public interface CustomerClient {
 
     @RequestMapping(value = "/customer", method = RequestMethod.POST)
@@ -33,6 +33,6 @@ public interface CustomerClient {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public String deleteCustomer(@PathVariable int id);
 
-    @GetMapping("/email/{email}")
+    @GetMapping("/customer/email/{email}")
     List<Customer> findCustomersByEmail(@PathVariable String email);
 }

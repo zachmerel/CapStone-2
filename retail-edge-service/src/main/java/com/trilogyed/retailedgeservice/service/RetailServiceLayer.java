@@ -22,8 +22,8 @@ public class RetailServiceLayer {
     private PurchaseClient invoiceItemClient;
     private LevelUpClient levelUpClient;
     private ProductClient productClient;
-    public static final String EXCHANGE = "points-exchange";
-    public static final String ROUTING_KEY = "levelup․#";
+    public static final String EXCHANGE = "queue-levelUp-exchange";
+    public static final String ROUTING_KEY = "levelup.points.add.create";
     @Autowired
     private RabbitTemplate rabbitTemplate;
 

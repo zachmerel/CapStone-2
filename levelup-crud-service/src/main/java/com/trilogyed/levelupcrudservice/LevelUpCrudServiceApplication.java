@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient
 //@EnableSwagger2
 public class LevelUpCrudServiceApplication {
-	public static final String TOPIC_EXCHANGE_NAME="points-exchange";
-		public static final String QUEUE_NAME = "points-queue";
-		public static final String ROUTING_KEY = "levelup.#";
+	public static final String TOPIC_EXCHANGE_NAME="queue-levelUp-exchange";
+		public static final String QUEUE_NAME = "levelup-add-queue";
+		public static final String ROUTING_KEY = "levelup.points.add.#";
 
 		@Bean
 		Queue queue() {
