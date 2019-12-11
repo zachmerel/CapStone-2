@@ -1,6 +1,7 @@
 package com.trilogyed.retailedgeservice.controller;
 
 import com.trilogyed.retailedgeservice.dto.Invoice;
+import com.trilogyed.retailedgeservice.exceptions.NotFoundException;
 import com.trilogyed.retailedgeservice.service.RetailServiceLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -23,14 +24,18 @@ public class InvoiceController {
 
     @CachePut(key = "#result.getInvoiceId()")
     @RequestMapping(value = "/invoice", method = RequestMethod.POST)
-    public Invoice createInvoice(@RequestBody Invoice invoice) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Invoice createInvoice(@RequestBody @Valid Invoice invoice) {
         return retailServiceLayer.createInvoice(invoice);
     }
 
     @Cacheable
     @RequestMapping(value = "/invoice/{id}", method = RequestMethod.GET)
     public Invoice getInvoiceById(@PathVariable int id) {
-        return retailServiceLayer.getInvoiceById(id);
+        try{
+        return retailServiceLayer.getInvoiceById(id);}catch (Exception e){
+            throw new NotFoundException("could not find an invoice with an id of "+id);
+        }
     }
 
     @RequestMapping(value = "/invoice", method = RequestMethod.GET)
@@ -47,12 +52,15 @@ public class InvoiceController {
     @RequestMapping(value = "/invoice/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInvoiceById(@PathVariable int id) {
-        retailServiceLayer.deleteInvoiceById(id);
+        try{
+        retailServiceLayer.deleteInvoiceById(id);}catch (Exception e){
+            throw new NotFoundException("could not find an invoice with an id of "+id);
+        }
     }
 
     @CacheEvict
     @RequestMapping(value = "/invoice", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateLevelUp(@RequestBody @Valid Invoice invoice) {
         retailServiceLayer.updateInvoice(invoice);
     }

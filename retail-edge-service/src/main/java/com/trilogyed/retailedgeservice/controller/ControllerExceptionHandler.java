@@ -1,6 +1,7 @@
 package com.trilogyed.retailedgeservice.controller;
 
 import com.trilogyed.retailedgeservice.exceptions.MultipleCustomersException;
+import com.trilogyed.retailedgeservice.exceptions.NotFoundException;
 import org.springframework.hateoas.mediatype.vnderrors.VndErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,16 +44,24 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(value = {MultipleCustomersException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ResponseEntity<VndErrors> handleNotFoundException(MultipleCustomersException e, WebRequest request) {
+    public ResponseEntity<VndErrors> handleMultipleCustomersException(MultipleCustomersException e, WebRequest request) {
         VndErrors error = new VndErrors(request.toString(), e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
     @ExceptionHandler(value = {IllegalArgumentException.class})
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ResponseEntity<VndErrors> handleNotFoundException(IllegalArgumentException e, WebRequest request) {
+    public ResponseEntity<VndErrors> handleIllegalArgumentException(IllegalArgumentException e, WebRequest request) {
         VndErrors error = new VndErrors(request.toString(), e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+        @ExceptionHandler(value = {NotFoundException.class})
+            @ResponseStatus(HttpStatus.NOT_FOUND)
+            public ResponseEntity<VndErrors> handleNotFoundException(NotFoundException e, WebRequest request) {
+                VndErrors error = new VndErrors(request.toString(), e.getMessage());
+                return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+            }
+
 
 }
 
