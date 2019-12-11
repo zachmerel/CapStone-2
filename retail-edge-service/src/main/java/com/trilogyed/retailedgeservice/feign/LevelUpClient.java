@@ -31,6 +31,6 @@ public interface LevelUpClient {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteLevelUpById(@PathVariable int id);
 
-    @GetMapping(value = "/levelUp/customer/{id}")
+    @GetMapping(value = "/levelUp/customerId/{id}")
     public List<LevelUp> findLevelUpByCustomerId(@PathVariable int id);
 }

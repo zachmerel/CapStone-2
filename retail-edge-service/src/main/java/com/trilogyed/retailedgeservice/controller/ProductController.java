@@ -12,6 +12,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -41,7 +42,7 @@ public class ProductController {
     @CachePut(key = "#result.getProductId()")
     @RequestMapping(value = "/product", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Product saveProduct(@RequestBody Product o) {
+    public Product saveProduct(@RequestBody @Valid Product o) {
         return retailServiceLayer.createProduct(o);
     }
 
@@ -55,7 +56,7 @@ public class ProductController {
     @CacheEvict(key = "#product.getProductId()")
     @RequestMapping(value = "/product", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public void updateProduct(@RequestBody Product product) {
+    public void updateProduct(@RequestBody @Valid Product product) {
         retailServiceLayer.updateProduct(product);
     }
 

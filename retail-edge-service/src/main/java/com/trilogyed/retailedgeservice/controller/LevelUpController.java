@@ -22,14 +22,14 @@ import java.util.Optional;
 public class LevelUpController {
     @Autowired
     private RetailServiceLayer retailServiceLayer;
-    public static final String EXCHANGE = "points-exchange";
-    public static final String ROUTING_KEY = "levelup․#";
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-    public LevelUpController(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
+//    public static final String EXCHANGE = "points-exchange";
+//    public static final String ROUTING_KEY = "levelup․#";
+//    @Autowired
+//    private RabbitTemplate rabbitTemplate;
+//
+//    public LevelUpController(RabbitTemplate rabbitTemplate) {
+//        this.rabbitTemplate = rabbitTemplate;
+//    }
 
     //    @Cacheable
     @RequestMapping(value = "/levelUp/{id}", method = RequestMethod.GET)
@@ -67,7 +67,7 @@ public class LevelUpController {
     }
 
     //    @Cacheable
-    @RequestMapping(value = "/levelup/customer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/levelup/points/customer/{id}", method = RequestMethod.GET)
     public Integer getLevelUpPointsByCustomerId(int id) {
         return retailServiceLayer.getLevelUpPointsByCustomerId(id);
     }
